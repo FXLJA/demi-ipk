@@ -1,13 +1,14 @@
 import numpy
 
 class ANN:
-    def __init__(self, layers):
+    def __init__(self, layer_shape):
+        self.layer_shape = layer_shape
         self.layer_weights = []
-        self._create_all_layer_weights(layers)
+        self._create_all_layer_weights(layer_shape)
 
-    def _create_all_layer_weights(self, layers):
-        for i in range(1, len(layers)):
-            new_layer_weights = self._create_layer_weights(layers[i-1], layers[i])
+    def _create_all_layer_weights(self, layer_shape):
+        for i in range(1, len(layer_shape)):
+            new_layer_weights = self._create_layer_weights(layer_shape[i-1], layer_shape[i])
             self._append_layer_weights(new_layer_weights)
 
     def _append_layer_weights(self, new_layer_weights):
