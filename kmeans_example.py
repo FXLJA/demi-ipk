@@ -16,7 +16,6 @@ km = KMeans(
     tol=1e-04, random_state=0
 )
 y_km = km.fit_predict(X)
-print(X)
 
 plt.scatter(
     X[y_km == 0, 0], X[y_km == 0, 1],
@@ -49,6 +48,3 @@ plt.scatter(
 plt.legend(scatterpoints=1)
 plt.grid()
 plt.show()
-
-print(y_km)
-print(y_km == 0)
