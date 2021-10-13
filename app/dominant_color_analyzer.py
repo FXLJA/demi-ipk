@@ -22,4 +22,7 @@ class DominantColorAnalyzer:
 
     def get_top_5_colors(self):
         sum = numpy.bincount(self.image_cluster_index)
-        return self.dominant_colors[numpy.argsort(sum)[:-6:-1]]
+
+        sorted_index = numpy.argsort(sum) # return hasil index untuk sorting dari kecil ke besar
+        top_5_index = sorted_index[:-6:-1] # Ambil 5 data dari belakang
+        return self.dominant_colors[top_5_index]

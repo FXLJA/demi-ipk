@@ -15,14 +15,7 @@ class TestANN(unittest.TestCase):
 
     def test_create_layer_weights(self):
         result = self.ann._create_layer_weights(2, 3)
-        numpy.testing.assert_array_equal(result.shape, [2, 3])
-
-    def test_append_layer_weights(self):
-        self.ann.layer_weights = []
-        self.ann._append_layer_weights([1,2])
-        self.ann._append_layer_weights([0,4])
-
-        numpy.testing.assert_array_equal([[1,2], [0,4]], self.ann.layer_weights)
+        numpy.testing.assert_array_equal(result.shape, [3, 3])
 
     def test_create_all_layer_weights(self):
         self.ann.layer_weights = []

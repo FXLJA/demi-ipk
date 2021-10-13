@@ -3,24 +3,25 @@ import numpy
 class ANN:
     def __init__(self, layer_shape):
         self.layer_shape = layer_shape
+        self.layer_weights = []
         self.init_all_layer_weights()
 
     def init_all_layer_weights(self):
         self.layer_weights = []
         for i, k in self._window_iterate_layer_shape(self.layer_shape):
-            new_layer_weights = self._create_layer_weights(i + 1, k)
-            self._append_layer_weights(new_layer_weights)
-
-    def _append_layer_weights(self, new_layer_weights):
-        self.layer_weights += [new_layer_weights]
+            new_layer_weights = self._create_layer_weights(i, k)
+            self.layer_weights += [new_layer_weights]
 
     def _create_layer_weights(self, total_start_neuron, total_end_neuron):
-        return numpy.random.rand(total_start_neuron, total_end_neuron)
+        return numpy.random.rand(total_start_neuron + 1, total_end_neuron)
 
     def forward(self, input):
         result = input
-        for i in range(len(self.layer_weights)):
+        layer_total = len(self.layer_shape)
+
+        for i in range(layer_total-1):
             result = self._forward_layer(result, i)
+
         return result
 
     def _forward_layer(self, input, layer_index):

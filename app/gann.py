@@ -31,12 +31,17 @@ class GANN(ANN):
 
     @staticmethod
     def convert_dna_to_weights(dna, layer_shape):
-        i = 0
         layer_weights = []
 
+        start_snip_index = 0
         for a, b in GANN._window_iterate_layer_shape(layer_shape):
-            total = (a + 1) * b
-            layer_weights += [numpy.array(dna[i:i+total]).reshape([(a + 1), b])]
-            i += total
+            weight_total = (a + 1) * b
+            end_snip_index = start_snip_index + weight_total
+            dna_snip = numpy.array(dna[start_snip_index:end_snip_index])
+
+            weight_matrix = dna_snip.reshape([(a + 1), b])
+            layer_weights += [weight_matrix]
+
+            start_snip_index += weight_total
 
         return layer_weights
