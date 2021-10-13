@@ -1,5 +1,6 @@
 import numpy
 
+
 class ANN:
     def __init__(self, layer_shape):
         self.layer_shape = layer_shape
@@ -8,7 +9,7 @@ class ANN:
 
     def init_all_layer_weights(self):
         self.layer_weights = []
-        for i, k in self._window_iterate_layer_shape(self.layer_shape):
+        for i, k in ANN._window_iterate_layer_shape(self.layer_shape):
             new_layer_weights = self._create_layer_weights(i, k)
             self.layer_weights += [new_layer_weights]
 
@@ -26,7 +27,7 @@ class ANN:
 
     def _forward_layer(self, input, layer_index):
         z = self._multiply_to_layer_weight(input, layer_index)
-        return self.sigmoid(z)
+        return ANN.sigmoid(z)
 
     def _multiply_to_layer_weight(self, input, layer_index):
         input_and_bias = numpy.array([numpy.append(input, 1)])
