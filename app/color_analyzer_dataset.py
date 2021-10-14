@@ -1,3 +1,7 @@
+import math
+import random
+
+
 class ColorAnalyzerDataset:
     def __init__(self, dataset, training_to_test_ratio):
         self.dataset = dataset
@@ -11,6 +15,10 @@ class ColorAnalyzerDataset:
 
 
 class ColorAnalyzerData:
+    HORROR = 0
+    ROMATIC = 1
+    SCIFI = 2
+
     def __init__(self, color_pairs, expected_result):
         self.color_pairs = color_pairs
         self.expected_result = expected_result
@@ -22,7 +30,14 @@ class ColorAnalyzerData:
         return input
 
     def get_expected_output(self):
-        return self.expected_result
+        if self.expected_result == ColorAnalyzerData.HORROR:
+            return [1, 0, 0]
+        elif self.expected_result == ColorAnalyzerData.ROMATIC:
+            return [0, 1, 0]
+        elif self.expected_result == ColorAnalyzerData.SCIFI:
+            return [0, 0, 1]
+        else:
+            return [0, 0, 0]
 
 
 class ColorPairData:
