@@ -1,5 +1,6 @@
 from app.gann import GANN
 import random
+import app.monte_carlo as monte_carlo
 
 
 class GANNTrainer:
@@ -27,7 +28,15 @@ class GANNTrainer:
         pass
 
     def selection(self):
-        pass
+        population_size = len(self.population)
+        half_population_total = population_size * 0.5
+        index = population_size
+
+        while population_size > half_population_total:
+            index = (index - 1) % population_size
+            if monte_carlo.test_success(index/population_size):
+                self.population.pop(index)
+            population_size = len(self.population)
 
     def reproduction(self):
         while len(self.population) < self.config.population_size:

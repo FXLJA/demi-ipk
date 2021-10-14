@@ -16,7 +16,9 @@ class TestGANNTrainer(unittest.TestCase):
         pass
 
     def test_selection(self):
-        pass
+        gann_trainer = A.GANNTrainer.with_population_size(10).build()
+        gann_trainer.selection()
+        self.assertEqual(len(gann_trainer.population), 5)
 
     def test_reproduction(self):
         gann_trainer = A.GANNTrainer.with_population_size(10).build()
