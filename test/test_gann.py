@@ -33,8 +33,8 @@ class TestGANN(unittest.TestCase):
     def test_cross_over(self, mock_monte_carlo):
         mock_monte_carlo.return_value = [True, False, True, True, False]
 
-        gann0 = GANN([4,1], [0,2,4,6,8])
-        gann1 = GANN([4,1], [1,3,5,7,9])
+        gann0 = GANN([4, 1], [0, 2, 4, 6, 8])
+        gann1 = GANN([4, 1], [1, 3, 5, 7, 9])
         expected = [[[1], [2], [5], [7], [8]]]
 
         result = gann0.cross_over(gann1)
@@ -59,7 +59,7 @@ class TestGANN(unittest.TestCase):
         mock_monte_carlo.return_value = [False, True, True, False, True]
         mock_random.return_value = -3
 
-        gann = GANN([4,1], [0,2,4,6,8])
+        gann = GANN([4, 1], [0, 2, 4, 6, 8])
         expected = [[[0], [-3], [-3], [6], [-3]]]
 
         gann.mutate()
