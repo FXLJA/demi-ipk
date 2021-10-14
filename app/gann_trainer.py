@@ -25,6 +25,7 @@ class GANNTrainer:
             self.add_population(new_gann)
 
     def add_population(self, new_gann):
+        # 0: GANN, 1: Training, 2: Test
         self.population += [(new_gann, 0, 0)]
 
     def next_generation(self):
@@ -52,12 +53,12 @@ class GANNTrainer:
 
     def selection(self):
         self.sort_population_by_training_score()
-        self._remove_weak_and_unlucky_individuals()
+        self._remove_unfit_individuals()
 
     def sort_population_by_training_score(self):
         self.population = sorted(self.population, key=lambda x: x[1], reverse=True)
 
-    def _remove_weak_and_unlucky_individuals(self):
+    def _remove_unfit_individuals(self):
         # TODO : Refactor for more readability
         population_size = len(self.population)
         half_population_total = population_size * 0.5

@@ -55,7 +55,7 @@ class TestGANNTrainer(unittest.TestCase):
 
         self.assertEqual(3, mock_individual[2])
 
-    @patch('app.gann_trainer.GANNTrainer._remove_weak_and_unlucky_individuals')
+    @patch('app.gann_trainer.GANNTrainer._remove_unfit_individuals')
     @patch('app.gann_trainer.GANNTrainer.sort_population_by_training_score')
     def test_selection(self, mock_sort, mock_remove):
         gann_trainer = A.GANNTrainer.build()
@@ -73,9 +73,9 @@ class TestGANNTrainer(unittest.TestCase):
 
         numpy.testing.assert_array_equal(gann_trainer.population, expected)
 
-    def test_remove_weak_and_unlucky_individuals(self):
+    def test_remove_unfit_individuals(self):
         gann_trainer = A.GANNTrainer.with_population_size(10).build()
-        gann_trainer._remove_weak_and_unlucky_individuals()
+        gann_trainer._remove_unfit_individuals()
         self.assertEqual(len(gann_trainer.population), 5)
 
     def test_reproduction(self):
