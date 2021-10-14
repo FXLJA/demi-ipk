@@ -7,7 +7,6 @@ class GANNTrainer:
     def __init__(self, config):
         self.config = config
         self.population = []
-        self.population_score = []
 
         if config.is_valid():
             self.initialization()
@@ -17,7 +16,8 @@ class GANNTrainer:
     def initialization(self):
         self.population = []
         for _i in range(self.config.population_size):
-            self.population += [GANN(self.config.gann_shape)]
+            new_gann = GANN(self.config.gann_shape)
+            self.population += [(new_gann, 0)]
 
     def next_generation(self):
         self.evaluation()
@@ -44,12 +44,12 @@ class GANNTrainer:
             gann2 = self._get_random_gann_in_population(black_list=[gann1])
 
             new_gann = gann1.mate(gann2)
-            self.population += [new_gann]
+            self.population += [(new_gann, 0)]
 
     def _get_random_gann_in_population(self, black_list=[]):
         while True:
             index = random.randrange(0, len(self.population))
-            gann = self.population[index]
+            gann = self.population[index][0]
             if gann not in black_list:
                 return gann
 
