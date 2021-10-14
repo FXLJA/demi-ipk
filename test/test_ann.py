@@ -8,11 +8,6 @@ class TestANN(unittest.TestCase):
     def setUp(self):
         self.ann = ANN([2, 3, 1])
 
-    def test_sigmoid(self):
-        self.assertEqual(0.5, self.ann.sigmoid(0))
-        self.assertAlmostEqual(0, self.ann.sigmoid(-8), delta=0.001)
-        self.assertAlmostEqual(1, self.ann.sigmoid(8), delta=0.001)
-
     def test_create_layer_weights(self):
         result = self.ann._create_layer_weights(2, 3)
         numpy.testing.assert_array_equal(result.shape, [3, 3])
@@ -40,7 +35,7 @@ class TestANN(unittest.TestCase):
 
         numpy.testing.assert_array_equal(_result, EXPECTED_RESULT)
 
-    @patch('app.ann.ANN.sigmoid')
+    @patch('app.ann.activation_function.sigmoid')
     def test_forward_layer(self, mock_sigmoid):
         with patch.object(self.ann, "_multiply_to_layer_weight") as mock_multiply_weight:
             TEST_INPUT = "input data"

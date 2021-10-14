@@ -1,4 +1,5 @@
 import numpy
+import app.activation_function as activation_function
 
 
 class ANN:
@@ -27,7 +28,7 @@ class ANN:
 
     def _forward_layer(self, input, layer_index):
         z = self._multiply_to_layer_weight(input, layer_index)
-        return ANN.sigmoid(z)
+        return activation_function.sigmoid(z)
 
     def _multiply_to_layer_weight(self, input, layer_index):
         input_and_bias = numpy.array([numpy.append(input, 1)])
@@ -39,7 +40,3 @@ class ANN:
         for i in range(1, len(layer_shape)):
             window += [(layer_shape[i - 1], layer_shape[i])]
         return window
-
-    @staticmethod
-    def sigmoid(x):
-        return 1/(1+numpy.exp(-x))
