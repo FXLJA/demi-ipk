@@ -16,9 +16,6 @@ class TestGANN(unittest.TestCase):
         numpy.testing.assert_array_equal(_result[0], [[1, 2], [3, 4]])
         numpy.testing.assert_array_equal(_result[1], [[5], [6], [7]])
 
-    def test_monte_carlo_generator(self):
-        result = GANN.monte_carlo_generator(0.25, 10)
-        self.assertEqual(10, len(result))
 
     def test_merge_dna(self):
         dna0 = [0, 2, 4, 6, 8]
@@ -29,7 +26,7 @@ class TestGANN(unittest.TestCase):
 
         numpy.testing.assert_array_equal(result, [0, 3, 5, 6, 9])
 
-    @patch('app.gann.GANN.monte_carlo_generator')
+    @patch('app.gann.monte_carlo.generate')
     def test_cross_over(self, mock_monte_carlo):
         mock_monte_carlo.return_value = [True, False, True, True, False]
 
@@ -54,7 +51,7 @@ class TestGANN(unittest.TestCase):
         numpy.testing.assert_array_equal(result, expected)
 
     @patch('app.gann.random.random')
-    @patch('app.gann.GANN.monte_carlo_generator')
+    @patch('app.gann.monte_carlo.generate')
     def test_mutate(self, mock_monte_carlo, mock_random):
         mock_monte_carlo.return_value = [False, True, True, False, True]
         mock_random.return_value = -3

@@ -1,6 +1,7 @@
 from app.ann import ANN
 import numpy
 import random
+import app.monte_carlo as monte_carlo
 
 
 # TODO : Refactor to Create DNA class
@@ -19,7 +20,7 @@ class GANN(ANN):
 
     def mutate(self, mutation_rate=0.01):
         dna = self.get_dna()
-        mask = GANN.monte_carlo_generator(mutation_rate, len(dna))
+        mask = monte_carlo.generate(mutation_rate, len(dna))
         new_dna = GANN.mutate_dna_with_mask(dna, mask)
         self.set_dna(new_dna)
 
@@ -34,7 +35,7 @@ class GANN(ANN):
     def cross_over(self, target):
         dna_self = self.get_dna()
         dna_target = target.get_dna()
-        mask = GANN.monte_carlo_generator(0.5, len(dna_self))
+        mask = monte_carlo.generate(0.5, len(dna_self))
         new_dna = GANN.merge_dna(dna_self, dna_target, mask)
         return GANN(self.layer_shape, new_dna)
 
@@ -53,14 +54,6 @@ class GANN(ANN):
             else:
                 new_dna += [dna0[i]]
         return new_dna
-
-    @staticmethod
-    def monte_carlo_generator(probability, n=1):
-        result = []
-        for _i in range(n):
-            r = random.random()
-            result += [r < probability]
-        return result
 
     @staticmethod
     def convert_weights_to_dna(layer_weights):
