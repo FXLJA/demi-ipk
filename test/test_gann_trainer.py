@@ -1,5 +1,4 @@
 import unittest
-from app.gann_trainer import GANNTrainer
 from app.gann import GANN
 from builder.builders import A
 
