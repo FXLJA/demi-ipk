@@ -30,11 +30,10 @@ class GANNTrainerBuilder:
 
     def build(self):
         config = GANNTrainerConfig()
-        config.dataset = self.dataset
         config.population_size = self.population_size
         config.gann_shape = self.gann_shape
         config.mutation_rate = self.mutation_rate
 
-        obj = GANNTrainer(config)
+        obj = GANNTrainer(self.dataset, config)
         self.reset()
         return obj
