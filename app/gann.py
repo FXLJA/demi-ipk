@@ -2,6 +2,7 @@ from app.ann import ANN
 import numpy
 import random
 
+
 # TODO : Refactor to Create DNA class
 class GANN(ANN):
     def __init__(self, layer_shape, dna=None):
