@@ -18,7 +18,6 @@ class GANNTrainer:
         for _i in range(self.config.population_size):
             self.population += [GANN(self.config.gann_shape)]
 
-
     def next_generation(self):
         self.evaluation()
         self.selection()
@@ -33,16 +32,17 @@ class GANNTrainer:
     def reproduction(self):
         while len(self.population) < self.config.population_size:
             gann1 = self._get_random_gann_in_population()
-            gann2 = self._get_random_gann_in_population()
-            while gann1 == gann2:
-                gann2 = self._get_random_gann_in_population()
+            gann2 = self._get_random_gann_in_population(black_list=[gann1])
 
             new_gann = gann1.mate(gann2)
             self.population += [new_gann]
 
-    def _get_random_gann_in_population(self):
-        index = random.randrange(0, len(self.population))
-        return self.population[index]
+    def _get_random_gann_in_population(self, black_list=[]):
+        while True:
+            index = random.randrange(0, len(self.population))
+            gann = self.population[index]
+            if gann not in black_list:
+                return gann
 
 
 class GANNTrainerConfig:
