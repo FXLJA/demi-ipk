@@ -6,12 +6,12 @@ from unittest.mock import patch
 
 class TestANN(unittest.TestCase):
     def setUp(self):
-        self.ann = ANN([2,3,1])
+        self.ann = ANN([2, 3, 1])
 
     def test_sigmoid(self):
         self.assertEqual(0.5, self.ann.sigmoid(0))
         self.assertAlmostEqual(0, self.ann.sigmoid(-8), delta=0.001)
-        self.assertAlmostEqual(1, self.ann.sigmoid( 8), delta=0.001)
+        self.assertAlmostEqual(1, self.ann.sigmoid(8), delta=0.001)
 
     def test_create_layer_weights(self):
         result = self.ann._create_layer_weights(2, 3)
@@ -22,13 +22,13 @@ class TestANN(unittest.TestCase):
         self.ann.layer_shape = [2, 4, 3, 1]
         self.ann.init_all_layer_weights()
 
-        numpy.testing.assert_array_equal(self.ann.layer_weights[0].shape, [3,4])
-        numpy.testing.assert_array_equal(self.ann.layer_weights[1].shape, [5,3])
-        numpy.testing.assert_array_equal(self.ann.layer_weights[2].shape, [4,1])
+        numpy.testing.assert_array_equal(self.ann.layer_weights[0].shape, [3, 4])
+        numpy.testing.assert_array_equal(self.ann.layer_weights[1].shape, [5, 3])
+        numpy.testing.assert_array_equal(self.ann.layer_weights[2].shape, [4, 1])
 
     def test_constructor(self):
-        numpy.testing.assert_array_equal(self.ann.layer_weights[0].shape, [3,3])
-        numpy.testing.assert_array_equal(self.ann.layer_weights[1].shape, [4,1])
+        numpy.testing.assert_array_equal(self.ann.layer_weights[0].shape, [3, 3])
+        numpy.testing.assert_array_equal(self.ann.layer_weights[1].shape, [4, 1])
 
     def test_multiply_to_layer_weight(self):
         TEST_INPUT = [2, 5]
@@ -55,7 +55,6 @@ class TestANN(unittest.TestCase):
             mock_multiply_weight.assert_called_with(TEST_INPUT, 1)
             mock_sigmoid.assert_called_with(EXPECTED_WEIGHT_RESULT)
             self.assertEqual(_result, EXPECTED_RESULT)
-
 
     def test_forward(self):
         TEST_INPUT = [2, 5]
