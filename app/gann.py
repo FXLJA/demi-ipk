@@ -13,12 +13,12 @@ class GANN(ANN):
             self.layer_shape = layer_shape
             self.layer_weights = GANN.convert_dna_to_weights(dna, layer_shape)
 
-    def mate(self, target, mutation_rate=0.01):
+    def mate(self, target, mutation_rate):
         new_gann = self.cross_over(target)
         new_gann.mutate(mutation_rate)
         return new_gann
 
-    def mutate(self, mutation_rate=0.01):
+    def mutate(self, mutation_rate):
         dna = self.get_dna()
         mask = monte_carlo.generate(mutation_rate, len(dna))
         new_dna = GANN.mutate_dna_with_mask(dna, mask)

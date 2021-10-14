@@ -59,7 +59,7 @@ class TestGANN(unittest.TestCase):
         gann = GANN([4, 1], [0, 2, 4, 6, 8])
         expected = [[[0], [-3], [-3], [6], [-3]]]
 
-        gann.mutate()
+        gann.mutate(0)
 
         numpy.testing.assert_array_equal(gann.layer_weights, expected)
 
