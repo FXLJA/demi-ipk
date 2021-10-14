@@ -4,8 +4,14 @@ from builder.builders import A
 
 
 class TestColorAnalyzerDataset(unittest.TestCase):
-    def test_create_training_and_test_dataset(self):
-        pass
+    def test_split_dataset(self):
+        _dataset = A.ColorAnalyzerDataset\
+            .with_total_dataset(10)\
+            .with_test_ratio(0.2)\
+            .build()
+
+        self.assertEqual(len(_dataset.training_dataset), 8)
+        self.assertEqual(len(_dataset.test_dataset), 2)
 
 
 class TestColorAnalyzerData(unittest.TestCase):

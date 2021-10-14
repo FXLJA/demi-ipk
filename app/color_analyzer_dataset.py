@@ -3,15 +3,23 @@ import random
 
 
 class ColorAnalyzerDataset:
-    def __init__(self, dataset, training_to_test_ratio):
-        self.dataset = dataset
-        self.training_dataset = []
-        self.test_dataset = []
+    def __init__(self, dataset, test_ratio):
+        training, test = ColorAnalyzerDataset.split_dataset(dataset, test_ratio)
+        self.training_dataset = training
+        self.test_dataset = test
 
-        self._create_training_and_test_dataset(training_to_test_ratio)
+    @staticmethod
+    def split_dataset(dataset, test_ratio):
+        test = []
+        temp_dataset = dataset.copy()
 
-    def _create_training_and_test_dataset(self, training_to_test_ratio):
-        pass
+        total_test = math.floor(len(dataset) * test_ratio)
+        for _i in range(total_test):
+            index = random.randrange(0, len(temp_dataset))
+            test += [temp_dataset.pop(index)]
+
+        training = temp_dataset
+        return training, test
 
 
 class ColorAnalyzerData:
