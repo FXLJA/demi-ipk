@@ -1,13 +1,12 @@
 from app.gann import GANN
-import numpy
 import random
 
 
 class GANNTrainer:
     def __init__(self, config):
         self.config = config
-        self.population = numpy.array([])
-        self.population_score = numpy.array([])
+        self.population = []
+        self.population_score = []
 
         if config.is_valid():
             self.initialization()
@@ -15,10 +14,10 @@ class GANNTrainer:
             raise Exception("Configuration not valid!")
 
     def initialization(self):
-        population = []
+        self.population = []
         for _i in range(self.config.population_size):
-            population += [GANN(self.config.gann_shape)]
-        self.population = numpy.array(population)
+            self.population += [GANN(self.config.gann_shape)]
+
 
     def next_generation(self):
         self.evaluation()
@@ -32,7 +31,18 @@ class GANNTrainer:
         pass
 
     def reproduction(self):
-        pass
+        while len(self.population) < self.config.population_size:
+            gann1 = self._get_random_gann_in_population()
+            gann2 = self._get_random_gann_in_population()
+            while gann1 == gann2:
+                gann2 = self._get_random_gann_in_population()
+
+            new_gann = gann1.mate(gann2)
+            self.population += [new_gann]
+
+    def _get_random_gann_in_population(self):
+        index = random.randrange(0, len(self.population))
+        return self.population[index]
 
 
 class GANNTrainerConfig:
@@ -46,4 +56,4 @@ class GANNTrainerConfig:
         return self.gann_shape is not None \
                and self.dataset is not None \
                and 0.0 < self.mutation_rate <= 1.0 \
-               and 0 < self.population_size
+               and self.population_size > 3
