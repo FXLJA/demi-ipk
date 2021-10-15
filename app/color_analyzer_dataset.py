@@ -27,6 +27,12 @@ class ColorAnalyzerData:
     ROMANTIC = 1
     SCIFI = 2
 
+    theme_dict = {
+        HORROR: [1, 0, 0],
+        ROMANTIC: [0, 1, 0],
+        SCIFI: [0, 0, 1],
+    }
+
     def __init__(self, color_pairs, expected_result):
         self.color_pairs = color_pairs
         self.expected_result = expected_result
@@ -38,14 +44,7 @@ class ColorAnalyzerData:
         return input
 
     def get_expected_output(self):
-        if self.expected_result == ColorAnalyzerData.HORROR:
-            return [1, 0, 0]
-        elif self.expected_result == ColorAnalyzerData.ROMANTIC:
-            return [0, 1, 0]
-        elif self.expected_result == ColorAnalyzerData.SCIFI:
-            return [0, 0, 1]
-        else:
-            return [0, 0, 0]
+        return self.theme_dict.get(self.expected_result)
 
 
 class ColorPairData:
