@@ -1,6 +1,6 @@
 import unittest
 import numpy
-from app.gann import GANN
+from app.core.gann.gann import GANN
 from unittest.mock import patch, MagicMock
 
 
@@ -25,7 +25,7 @@ class TestGANN(unittest.TestCase):
 
         numpy.testing.assert_array_equal(result, [0, 3, 5, 6, 9])
 
-    @patch('app.gann.monte_carlo.generate')
+    @patch('app.core.gann.gann.monte_carlo.generate')
     def test_cross_over(self, mock_monte_carlo):
         mock_monte_carlo.return_value = [True, False, True, True, False]
 
@@ -37,7 +37,7 @@ class TestGANN(unittest.TestCase):
 
         numpy.testing.assert_array_equal(result.layer_weights, expected)
 
-    @patch('app.gann.random.random')
+    @patch('app.core.gann.gann.random.random')
     def test_mutate_dna_with_mask(self, mock_random):
         mock_random.return_value = -3
 
@@ -49,8 +49,8 @@ class TestGANN(unittest.TestCase):
 
         numpy.testing.assert_array_equal(result, expected)
 
-    @patch('app.gann.random.random')
-    @patch('app.gann.monte_carlo.generate')
+    @patch('app.core.gann.gann.random.random')
+    @patch('app.core.gann.gann.monte_carlo.generate')
     def test_mutate(self, mock_monte_carlo, mock_random):
         mock_monte_carlo.return_value = [False, True, True, False, True]
         mock_random.return_value = -3
@@ -62,7 +62,7 @@ class TestGANN(unittest.TestCase):
 
         numpy.testing.assert_array_equal(gann.layer_weights, expected)
 
-    @patch('app.gann.GANN.cross_over')
+    @patch('app.core.gann.gann.GANN.cross_over')
     def test_mate(self, mock_cross_over):
         mock_fake_gann = MagicMock()
         mock_cross_over.return_value = mock_fake_gann

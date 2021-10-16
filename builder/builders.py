@@ -1,5 +1,5 @@
-from builder.color_analyzer_dataset_builder import *
-from builder.gann_trainer_builder import *
+from builder.core.color_analyzer_dataset_builder import *
+from builder.core.gann_trainer_builder import *
 
 
 class A:

@@ -1,6 +1,6 @@
 import unittest
 import numpy
-from app.ann import ANN
+from app.core.gann.ann import ANN
 from unittest.mock import patch
 
 
@@ -35,7 +35,7 @@ class TestANN(unittest.TestCase):
 
         numpy.testing.assert_array_equal(_result, EXPECTED_RESULT)
 
-    @patch('app.ann.activation_function.sigmoid')
+    @patch('app.core.gann.ann.activation_function.sigmoid')
     def test_forward_layer(self, mock_sigmoid):
         with patch.object(self.ann, "_multiply_to_layer_weight") as mock_multiply_weight:
             TEST_INPUT = "input data"

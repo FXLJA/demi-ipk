@@ -1,4 +1,4 @@
-from app.color_analyzer_dataset import *
+from app.core.utils.color_analyzer_dataset import *
 
 
 class ColorAnalyzerDatasetBuilder:
