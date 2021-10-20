@@ -1,6 +1,6 @@
 import unittest
 import numpy
-from builder.builders import A
+from builder.builders import *
 
 
 class TestColorAnalyzerDataset(unittest.TestCase):

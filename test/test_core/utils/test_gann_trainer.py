@@ -3,7 +3,7 @@ import numpy
 from unittest.mock import patch, MagicMock
 from app.core.gann.gann import GANN
 from app.core.utils.gann_trainer import ScoreEvaluator
-from builder.builders import A
+from builder.builders import *
 
 
 class TestGANNTrainer(unittest.TestCase):
