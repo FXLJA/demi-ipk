@@ -1,14 +1,14 @@
 import unittest
 import numpy
 from unittest.mock import patch
-from app.dominant_color_analyzer import DominantColorAnalyzer
+from app.core.utils.dominant_color_analyzer import DominantColorAnalyzer
 
 
 class TestDominantColorAnalyzer(unittest.TestCase):
     def setUp(self):
         self._color_analyzer = DominantColorAnalyzer()
 
-    @patch('app.dominant_color_analyzer.cv2')
+    @patch('app.core.utils.dominant_color_analyzer.cv2')
     def test_analyze_path(self, mock_cv2):
         TEST_IMAGE_PATH = "image_path"
         EXPECTED_IMAGE_RESULT = "image_result"
@@ -25,7 +25,7 @@ class TestDominantColorAnalyzer(unittest.TestCase):
             mock_cv2.cvtColor.assert_called_with(EXPECTED_IMAGE_RESULT, -1)
             mock_analyze_image.assert_called_with(EXPECTED_HSV_RESULT)
 
-    @patch('app.dominant_color_analyzer.KMeans')
+    @patch('app.core.utils.dominant_color_analyzer.KMeans')
     def test_analyze_image(self, mock_kmeans):
         TEST_IMAGE_DATA = [[5, 6, 7]]
         EXPECTED_CLUSTER_INDEX = [3, 1, 0, 2]

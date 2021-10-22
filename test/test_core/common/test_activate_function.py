@@ -1,5 +1,5 @@
 import unittest
-import app.activation_function as activation_function
+import app.core.common.activation_function as activation_function
 
 
 class TestActivationFunction(unittest.TestCase):

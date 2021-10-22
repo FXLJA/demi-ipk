@@ -1,5 +1,5 @@
-from app.gann_trainer import GANNTrainer, GANNTrainerConfig
-from builder.color_analyzer_dataset_builder import ColorAnalyzerDatasetBuilder
+from app.core.utils.gann_trainer import GANNTrainer, GANNTrainerConfig
+from builder.core.color_analyzer_dataset_builder import ColorAnalyzerDatasetBuilder
 
 
 class GANNTrainerBuilder:

@@ -1,7 +1,7 @@
-from app.ann import ANN
+from app.core.gann.ann import ANN
 import numpy
 import random
-import app.monte_carlo as monte_carlo
+import app.core.common.monte_carlo as monte_carlo
 
 
 # TODO : Refactor to Create DNA class

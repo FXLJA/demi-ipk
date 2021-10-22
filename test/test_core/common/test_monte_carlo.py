@@ -1,5 +1,5 @@
 import unittest
-import app.monte_carlo as monte_carlo
+import app.core.common.monte_carlo as monte_carlo
 
 
 class TestMonteCarlo(unittest.TestCase):
