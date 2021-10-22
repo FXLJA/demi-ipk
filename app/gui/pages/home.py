@@ -132,7 +132,7 @@ class HomeFrame(ttk.Frame):
     def _create_fancy_colors(self, root_frame, total):
         fancy_colors = []
         for _i in range(total):
-            self.fancy_color1 = self._create_fancy_color(root_frame)
+            fancy_colors += self._create_fancy_color(root_frame)
         return fancy_colors
 
     def _create_fancy_color(self, root_frame):
