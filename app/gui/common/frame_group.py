@@ -1,7 +1,7 @@
 from tkinter import ttk
 import tkinter as tk
 
-from app.gui.config.config import *
+from app.config.gui_config import *
 
 
 class FrameGroup(tk.Frame):
