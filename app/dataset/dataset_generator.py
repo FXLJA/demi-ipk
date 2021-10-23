@@ -28,13 +28,18 @@ if __name__ == '__main__':
         ColorAnalyzerData.SCIFI : "Sci-Fi"
     }
 
+    progress = 0
+    max_progress = 100 * len(folder_dict)
     dataset = []
     for expected_result, folder_name in folder_dict.items():
         for index in range(100):
             file_name = file_path_format.format(folder_name, index+1)
             color_pairs = create_color_pairs(file_name)
 
-            color_data = ColorAnalyzerData(color_pairs, folder_name)
+            color_data = ColorAnalyzerData(color_pairs, expected_result)
             dataset.append(color_data)
 
-    dataset_io.save_dataset("test.csv", dataset)
+            progress += 1
+            print("Progress : {:.2f}%".format(progress/max_progress * 100))
+
+    dataset_io.save_dataset("dataset.csv", dataset)
