@@ -6,12 +6,10 @@ import app.core.common.monte_carlo as monte_carlo
 class GANNTrainer:
     def __init__(self, dataset, config):
         self.population = []
+        self.evaluation_progress = 0
         self.best_test_score = 0
         self.score_evaluator = ScoreEvaluator(dataset)
-
-        self.population_size = config.population_size
-        self.mutation_rate = config.mutation_rate
-        self.gann_shape = config.gann_shape
+        self.config = config
 
         if config.is_valid():
             self.initialization()
@@ -20,13 +18,13 @@ class GANNTrainer:
 
     def initialization(self):
         self.population = []
-        for _i in range(self.population_size):
-            new_gann = GANN(self.gann_shape)
+        for _i in range(self.config.population_size):
+            new_gann = GANN(self.config.gann_shape)
             self.add_population(new_gann)
 
     def add_population(self, new_gann):
         # 0: GANN, 1: Training, 2: Test
-        self.population += [(new_gann, 0, 0)]
+        self.population += [[new_gann, 0, 0]]
 
     def next_generation(self):
         self.evaluation()
@@ -34,9 +32,11 @@ class GANNTrainer:
         self.reproduction()
 
     def evaluation(self):
+        self.evaluation_progress = 0
         for individual in self.population:
             self._update_training_score(individual)
             self._update_test_score(individual)
+            self.evaluation_progress += 1
 
     def _update_training_score(self, individual):
         gann = individual[0]
@@ -70,11 +70,11 @@ class GANNTrainer:
             population_size = len(self.population)
 
     def reproduction(self):
-        while len(self.population) < self.population_size:
+        while len(self.population) < self.config.population_size:
             gann1 = self._get_random_gann_in_population()
             gann2 = self._get_random_gann_in_population(black_list=[gann1])
 
-            new_gann = gann1.mate(gann2, self.mutation_rate)
+            new_gann = gann1.mate(gann2, self.config.mutation_rate)
             self.add_population(new_gann)
 
     def _get_random_gann_in_population(self, black_list=[]):
@@ -83,6 +83,21 @@ class GANNTrainer:
             gann = self.population[index][0]
             if gann not in black_list:
                 return gann
+
+    def set_best_gann(self, gann):
+        self.population[0][0] = gann
+
+    def get_best_gann(self):
+        return self.population[0][0]
+
+    def get_best_gann_train_score(self):
+        return self.population[0][1]
+
+    def get_best_gann_test_score(self):
+        return self.population[0][2]
+
+    def get_evaluation_progress_percentage(self):
+        return self.evaluation_progress / len(self.population)
 
 
 class ScoreEvaluator:
@@ -98,24 +113,24 @@ class ScoreEvaluator:
 
     @staticmethod
     def _calc_gann_dataset_score(gann, dataset):
-        score = 0
+        score = 0.0
         for data in dataset:
             score += ScoreEvaluator._calc_gann_score(gann, data)
-        return score
+        return score / len(dataset)
 
     @staticmethod
     def _calc_gann_score(gann, data):
         input = data.get_input()
-        output = gann.forward(input)
+        output = gann.forward(input)[0]
         expected_output = data.get_expected_output()
         return ScoreEvaluator._calc_score(output, expected_output)
 
     @staticmethod
     def _calc_score(x, y):
-        score = 0
+        score = 0.0
         for i in range(len(x)):
             score += abs(x[i] - y[i])
-        return score
+        return 1.0 - (score / len(x))
 
 
 class GANNTrainerConfig:
