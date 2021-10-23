@@ -16,28 +16,28 @@ class HomeFrame(ttk.Frame):
     def _init_components(self):
         self.upper_frame = ttk.Frame(self)
         self._init_upper_frame_content(self.upper_frame)
-        self.upper_frame.pack(side=tk.TOP)
+        self.upper_frame.pack(side=tk.TOP, fill=tk.BOTH, pady=(0, DEFAULT_PAD_Y))
 
         self.lower_frame = ttk.Frame(self)
         self._init_lower_frame_content(self.lower_frame)
-        self.lower_frame.pack(side=tk.BOTTOM)
+        self.lower_frame.pack(side=tk.BOTTOM, expand=True, fill=tk.BOTH, pady=(DEFAULT_PAD_Y, 0))
 
     def _init_upper_frame_content(self, root_frame):
         self.search_img_frame = self._create_search_image_frame(root_frame)
-        self.search_img_frame.pack(side=tk.LEFT)
+        self.search_img_frame.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=(0, DEFAULT_PAD_X))
 
         self.k_means_frame = self._create_k_value_frame(root_frame)
-        self.k_means_frame.pack(side=tk.LEFT)
+        self.k_means_frame.pack(side=tk.LEFT, expand=True, fill=tk.X, padx=DEFAULT_PAD_X)
 
-        self.btn_analyze = self._create_analyze_button(root_frame)
-        self.btn_analyze.pack(side=tk.BOTTOM)
+        self.analyze_frame = self._create_analyze_frame(root_frame)
+        self.analyze_frame.pack(side=tk.LEFT, padx=(DEFAULT_PAD_X, 0))
 
     def _init_lower_frame_content(self, root_frame):
         self.poster_frame = self._create_poster_frame(root_frame)
-        self.poster_frame.pack(side=tk.LEFT)
+        self.poster_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(0, DEFAULT_PAD_X))
 
         self.color_frame = self._create_color_frame(root_frame)
-        self.color_frame.pack(side=tk.TOP)
+        self.color_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(DEFAULT_PAD_X, 0))
 
     # region upper_frame_components
     def _create_search_image_frame(self, root_frame):
@@ -51,8 +51,8 @@ class HomeFrame(ttk.Frame):
     def _create_search_image_content(self, root_frame):
         content_frame = ttk.Frame(master=root_frame)
 
-        self.entry_search_image = ttk.Entry(content_frame, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
-        self.entry_search_image.pack(side=tk.LEFT)
+        self.entry_search_image = ttk.Entry(content_frame, width=10, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
+        self.entry_search_image.pack(side=tk.LEFT, expand=True, fill=tk.X)
 
         self.btn_search_image = self._create_search_image_button(content_frame)
         self.btn_search_image.pack(side=tk.RIGHT)
@@ -78,7 +78,7 @@ class HomeFrame(ttk.Frame):
         content_frame = ttk.Frame(master=root_frame)
 
         self.slider_k_value = self._create_slider_k_value(content_frame)
-        self.slider_k_value.pack()
+        self.slider_k_value.pack(side=tk.LEFT, expand=True, fill=tk.X)
 
         return content_frame
 
@@ -88,8 +88,24 @@ class HomeFrame(ttk.Frame):
             value=12,
             min_value=5,
             max_value=32,
-            label_format="{:.0f}"
+            label_format="{:.0f}",
+            label_width=2
         )
+
+    def _create_analyze_frame(self, root_frame):
+        return FrameGroup(
+            master=root_frame,
+            title_font_size=FONT_SIZE_H2,
+            create_content_callback=self._create_analyze_content
+        )
+
+    def _create_analyze_content(self, root_frame):
+        content_frame = tk.Frame(root_frame)
+
+        self.btn_analyze = self._create_analyze_button(content_frame)
+        self.btn_analyze.pack()
+
+        return content_frame
 
     def _create_analyze_button(self, root_frame):
         return ttk.Button(
@@ -97,6 +113,7 @@ class HomeFrame(ttk.Frame):
             text="Analyze",
             command=self._on_analyze_button_pressed
         )
+
     # endregion upper_frame_components
     # region lower_frame_components
     def _create_poster_frame(self, root_frame):
@@ -110,8 +127,8 @@ class HomeFrame(ttk.Frame):
     def _create_poster_content(self, root_frame):
         content_frame = ttk.Frame(master=root_frame)
 
-        self.canvas_poster = tk.Canvas(root_frame, width=640, height=360)
-        self.canvas_poster.create_rectangle(0, 0, 640, 360, fill='white')
+        self.canvas_poster = tk.Canvas(root_frame, width=230, height=345)
+        self.canvas_poster.create_rectangle(0, 0, 230, 345, fill='white')
         self.canvas_poster.pack()
 
         return content_frame
@@ -132,12 +149,12 @@ class HomeFrame(ttk.Frame):
     def _create_fancy_colors(self, root_frame, total):
         fancy_colors = []
         for _i in range(total):
-            fancy_colors += self._create_fancy_color(root_frame)
+            fancy_colors += [self._create_fancy_color(root_frame)]
         return fancy_colors
 
     def _create_fancy_color(self, root_frame):
         fancy_color = FancyColor(master=root_frame)
-        fancy_color.pack()
+        fancy_color.pack(side=tk.TOP, pady=8)
         return fancy_color
     # endregion
     # endregion

@@ -19,11 +19,11 @@ class FrameGroup(tk.Frame):
             text=self._title,
             font=(DEFAULT_FONT, self._title_font_size)
         )
-        self._label.pack(side=tk.TOP)
+        self._label.pack(side=tk.TOP, expand=True, fill=tk.X)
 
         if create_content_callback is not None:
             content = create_content_callback(self)
             self.set_content(content)
 
     def set_content(self, content):
-        content.pack(side=tk.BOTTOM)
+        content.pack(side=tk.TOP, expand=True, fill=tk.BOTH)
