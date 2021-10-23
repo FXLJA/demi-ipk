@@ -4,20 +4,19 @@ import math
 
 
 class HSlider(ttk.Frame):
-    def __init__(self, value=0, min_value=0, max_value=100, step=1.0, label_format="{:}", **kw):
+    def __init__(self, value=0, min_value=0, max_value=100, step=1.0, label_format="{:}", label_width=0, **kw):
         self._min_value = min_value
         self._max_value = max_value
         self._step = step
         self._slider_value = self._convert_to_slider_value(value)
         self._label_format = label_format
+        self._label_width = label_width
 
         super().__init__(**kw)
         self._init_components()
 
     def _init_components(self):
-        self._label = ttk.Label(
-            self, text=self.get_value()
-        )
+        self._label = ttk.Label(self, text=self.get_value(), width=self._label_width)
         self._label.pack(side=tk.LEFT)
 
         slider_max_value = self._convert_to_slider_value(self._max_value)
@@ -29,7 +28,7 @@ class HSlider(ttk.Frame):
             command=self._on_slider_value_changed
         )
         self._slider.set(self._slider_value)
-        self._slider.pack(side=tk.RIGHT)
+        self._slider.pack(side=tk.RIGHT, expand=True, fill=tk.X)
 
     def _on_slider_value_changed(self, *args):
         self._slider_value = self._slider.get()

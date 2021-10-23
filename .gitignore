@@ -116,3 +116,4 @@ dmypy.json
 
 # Current Project
 app/gui/assets/
+app/dataset/posters/
