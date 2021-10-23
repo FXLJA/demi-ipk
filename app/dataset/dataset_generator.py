@@ -1,15 +1,23 @@
-import cv2
-
 from app.core.utils.dominant_color_analyzer import DominantColorAnalyzer
 from app.core.utils.color_analyzer_dataset import *
 import app.core.utils.color_analyzer_dataset_io as dataset_io
 
 
+GENERATED_FILE_NAME = "dataset.csv"
+K_MEANS_CLUSTER_TOTAL = 8
+FILE_PATH_FORMAT = "./posters/{}/{}.jpg"
+CATAGORY_AND_FOLDER = (
+    (ColorAnalyzerData.HORROR, "Horror"),
+    (ColorAnalyzerData.ROMANTIC, "Romance"),
+    (ColorAnalyzerData.SCIFI, "Sci-Fi")
+)
+
+
 def create_color_pairs(file_name):
-    color_analyzer = DominantColorAnalyzer()
+    color_analyzer = DominantColorAnalyzer(K_MEANS_CLUSTER_TOTAL)
     color_analyzer.analyze_path(file_name)
 
-    top_5_colors = color_analyzer.get_top_5_colors()
+    top_5_colors = color_analyzer.get_top_5_colors()/255.0
     top_5_colors_percentage = color_analyzer.get_top_5_colors_percentage()
 
     color_pairs = []
@@ -21,25 +29,17 @@ def create_color_pairs(file_name):
 
 
 if __name__ == '__main__':
-    file_path_format = "./posters/{}/{}.jpg"
-    folder_dict = {
-        ColorAnalyzerData.HORROR : "Horror",
-        ColorAnalyzerData.ROMANTIC : "Romance",
-        ColorAnalyzerData.SCIFI : "Sci-Fi"
-    }
-
     progress = 0
-    max_progress = 100 * len(folder_dict)
+    max_progress = 100 * len(CATAGORY_AND_FOLDER)
     dataset = []
-    for expected_result, folder_name in folder_dict.items():
+    for catagory, folder_name in CATAGORY_AND_FOLDER:
         for index in range(100):
-            file_name = file_path_format.format(folder_name, index+1)
+            file_name = FILE_PATH_FORMAT.format(folder_name, index+1)
             color_pairs = create_color_pairs(file_name)
-
-            color_data = ColorAnalyzerData(color_pairs, expected_result)
+            color_data = ColorAnalyzerData(color_pairs, catagory)
             dataset.append(color_data)
 
             progress += 1
             print("Progress : {:.2f}%".format(progress/max_progress * 100))
 
-    dataset_io.save_dataset("dataset.csv", dataset)
+    dataset_io.save_dataset(GENERATED_FILE_NAME, dataset)
