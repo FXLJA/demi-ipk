@@ -15,7 +15,7 @@ class ANN:
             self.layer_weights += [new_layer_weights]
 
     def _create_layer_weights(self, total_start_neuron, total_end_neuron):
-        return numpy.random.rand(total_start_neuron + 1, total_end_neuron)
+        return numpy.random.rand(total_start_neuron + 1, total_end_neuron) * 4 - 2
 
     def forward(self, input):
         result = input
