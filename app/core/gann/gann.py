@@ -29,7 +29,7 @@ class GANN(ANN):
         new_dna = dna.copy()
         for i in range(len(mask)):
             if mask[i]:
-                new_dna[i] = random.random()
+                new_dna[i] = random.random() * 4 - 2
         return new_dna
 
     def cross_over(self, target):

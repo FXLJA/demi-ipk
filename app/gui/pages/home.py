@@ -1,14 +1,26 @@
+import os.path
 import tkinter as tk
 from tkinter import ttk
+from tkinter import filedialog
+from tkinter import messagebox
+from PIL import ImageTk, Image
 
-from app.gui.config.config import *
+from app.core.common.color_converter import *
+from app.core.utils.color_gann_helper import *
+from app.core.utils.dominant_color_analyzer import DominantColorAnalyzer
 from app.gui.common.frame_group import FrameGroup
 from app.gui.common.fancy_color import FancyColor
 from app.gui.common.slider import HSlider
+from app.config.global_config import *
+from app.config.gui_config import *
 
 
 class HomeFrame(ttk.Frame):
-    def __init__(self, **kw):
+    def __init__(self, togi_gui, **kw):
+        self.togi_gui = togi_gui
+        self.poster_img_raw = None
+        self.poster_img = None
+
         super().__init__(**kw)
         self._init_components()
 
@@ -51,13 +63,18 @@ class HomeFrame(ttk.Frame):
     def _create_search_image_content(self, root_frame):
         content_frame = ttk.Frame(master=root_frame)
 
-        self.entry_search_image = ttk.Entry(content_frame, width=10, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
+        self.entry_search_image = self._create_entry_search_image(content_frame)
         self.entry_search_image.pack(side=tk.LEFT, expand=True, fill=tk.X)
 
         self.btn_search_image = self._create_search_image_button(content_frame)
         self.btn_search_image.pack(side=tk.RIGHT)
 
         return content_frame
+
+    def _create_entry_search_image(self, root_frame):
+        entry = ttk.Entry(root_frame, width=10, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
+        entry.insert(0, DEFAULT_POSTER_FILE_PATH)
+        return entry
 
     def _create_search_image_button(self, root_frame):
         return ttk.Button(
@@ -85,11 +102,12 @@ class HomeFrame(ttk.Frame):
     def _create_slider_k_value(self, root_frame):
         return HSlider(
             master=root_frame,
-            value=12,
-            min_value=5,
-            max_value=32,
-            label_format="{:.0f}",
-            label_width=2
+            value=K_MEANS_CLUSTER_TOTAL_DEFAULT,
+            min_value=K_MEANS_CLUSTER_TOTAL_MIN,
+            max_value=K_MEANS_CLUSTER_TOTAL_MAX,
+            step=K_MEANS_CLUSTER_TOTAL_STEP,
+            label_format=K_MEANS_CLUSTER_TOTAL_TEXT_FORMAT,
+            label_width=K_MEANS_CLUSTER_TOTAL_TEXT_WIDTH
         )
 
     def _create_analyze_frame(self, root_frame):
@@ -127,8 +145,8 @@ class HomeFrame(ttk.Frame):
     def _create_poster_content(self, root_frame):
         content_frame = ttk.Frame(master=root_frame)
 
-        self.canvas_poster = tk.Canvas(root_frame, width=230, height=345)
-        self.canvas_poster.create_rectangle(0, 0, 230, 345, fill='white')
+        self.canvas_poster = tk.Canvas(root_frame, width=POSTER_CANVAS_WIDTH, height=POSTER_CANVAS_HEIGHT)
+        self.canvas_poster.create_rectangle(0, 0, POSTER_CANVAS_WIDTH, POSTER_CANVAS_HEIGHT, fill='white')
         self.canvas_poster.pack()
 
         return content_frame
@@ -160,7 +178,89 @@ class HomeFrame(ttk.Frame):
     # endregion
 
     def _on_search_button_pressed(self):
-        print("Search button pressed!")
+        filename = filedialog.askopenfilename(
+            title="Open an image file",
+            initialdir=DEFAULT_POSTER_DIR_PATH,
+            filetypes=IMAGE_FILE_TYPES
+        )
+
+        if filename == "":
+            return
+
+        self.set_search_image_entry_text(filename)
+        self.set_poster_image(filename)
 
     def _on_analyze_button_pressed(self):
-        print("Analyze button pressed!")
+        filename = self.get_poster_filename()
+        k_means_value = self.get_k_means_value()
+        main_gann = self.get_best_gann()
+
+        if not os.path.isfile(filename):
+            messagebox.showerror("Missing Poster!", "Posternya mana WOI!")
+            return
+
+        if main_gann is None:
+            messagebox.showerror("Missing GANN!", "Tolong Load GANN dulu atau Load Dataset untuk buat GANN baru")
+            return
+
+        colors, percentages = self._analyze_poster(filename, k_means_value)
+        poster_theme = self._get_poster_theme(main_gann, colors, percentages)
+
+        self.set_poster_image(filename)
+        self.set_displayed_dominant_colors(colors)
+        self._display_poster_theme_result(poster_theme)
+
+    def set_best_gann(self, gann):
+        self.togi_gui.best_gann = gann
+
+    def get_best_gann(self):
+        return self.togi_gui.best_gann
+
+    def set_search_image_entry_text(self, new_text):
+        self.entry_search_image.delete(0, tk.END)
+        self.entry_search_image.insert(0, new_text)
+
+    def set_poster_image(self, filename):
+        self.poster_img_raw = Image.open(filename)
+        self.poster_img = ImageTk.PhotoImage(self.poster_img_raw)
+        self.canvas_poster.create_image(0, 0, anchor=tk.NW, image=self.poster_img)
+
+    def set_displayed_dominant_colors(self, colors):
+        for i in range(5):
+            rgb = yuv_to_rgb(colors[i])
+            self.fancy_colors[i].set_color(rgb)
+
+    def get_poster_filename(self):
+        return self.entry_search_image.get()
+
+    def get_k_means_value(self):
+        return self.slider_k_value.get_value()
+
+    def get_catagory_from_gann_result(self, gann_result):
+        gann_result = gann_result[0]
+
+        if gann_result[0] > gann_result[1] and gann_result[0] > gann_result[2]:
+            return "Horror", gann_result[0] * 100
+        if gann_result[1] > gann_result[0] and gann_result[1] > gann_result[2]:
+            return "Romantic", gann_result[1] * 100
+        if gann_result[2] > gann_result[0] and gann_result[2] > gann_result[1]:
+            return "Sci-fi", gann_result[2] * 100
+        return "No Category"
+
+    def _analyze_poster(self, file_name, k_means_value):
+        analyzer = DominantColorAnalyzer(k_means_value)
+        analyzer.analyze_path(file_name)
+        colors = analyzer.get_top_5_colors()
+        percentages = analyzer.get_top_5_colors_percentage()
+
+        return colors, percentages
+
+    def _get_poster_theme(self, main_gann, colors, percentages):
+        gann_input = create_to_gann_input(colors / 255.0, percentages)
+        gann_result = main_gann.forward(gann_input)
+        return self.get_catagory_from_gann_result(gann_result)
+
+    def _display_poster_theme_result(self, poster_theme):
+        title = "Analyse Result"
+        msg = "The Poster's color scheme is indicating:\n\n%s (Confidence: %.2f%%)" % poster_theme
+        messagebox.showinfo(title, msg)

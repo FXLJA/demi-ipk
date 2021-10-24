@@ -1,4 +1,5 @@
 import csv
+import numpy
 
 from app.core.utils.color_analyzer_dataset import *
 
@@ -15,10 +16,11 @@ def load_dataset(file_name):
     for raw_data in raw_dataset:
         color_pairs = []
         for i in range(5):
-            color_pair = ColorPairData(raw_data[i*4], raw_data[(i+3)*4])
+            color = numpy.float64([raw_data[i*4], raw_data[i*4+1], raw_data[i*4+2]])
+            color_pair = ColorPairData(color, float(raw_data[i*4+3]))
             color_pairs.append(color_pair)
 
-        color_data = ColorAnalyzerData(color_pairs, raw_data[4*5])
+        color_data = ColorAnalyzerData(color_pairs, int(raw_data[4*5]))
         dataset.append(color_data)
 
     return dataset

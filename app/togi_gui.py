@@ -4,20 +4,21 @@ import tkinter.ttk as ttk
 
 from app.gui.pages.home import HomeFrame
 from app.gui.pages.training import TrainingFrame
-from app.gui.config.config import *
+from app.config.gui_config import *
 
 
 class TogiGUI:
     def __init__(self, root):
         self.root = root
+        self.best_gann = None
         self._init_components()
         self.update_default_font()
 
     def _init_components(self):
         tab_parent = ttk.Notebook(self.root)
 
-        home_frame = HomeFrame(master=tab_parent)
-        training_frame = TrainingFrame(master=tab_parent)
+        home_frame = HomeFrame(togi_gui=self, master=tab_parent)
+        training_frame = TrainingFrame(togi_gui=self, master=tab_parent)
 
         padding = (DEFAULT_PAD_X, DEFAULT_PAD_Y, DEFAULT_PAD_X, DEFAULT_PAD_Y)
         tab_parent.add(home_frame, text="Home", padding=padding)
