@@ -24,7 +24,7 @@ class GANNTrainer:
 
     def add_population(self, new_gann):
         # 0: GANN, 1: Training, 2: Test
-        self.population += [[new_gann, 0, 0]]
+        self.population += [[new_gann, 0.0, 0.0]]
 
     def next_generation(self):
         self.evaluation()
@@ -34,8 +34,9 @@ class GANNTrainer:
     def evaluation(self):
         self.evaluation_progress = 0
         for individual in self.population:
-            self._update_training_score(individual)
-            self._update_test_score(individual)
+            if individual[1] == 0.0:
+                self._update_training_score(individual)
+                self._update_test_score(individual)
             self.evaluation_progress += 1
 
     def _update_training_score(self, individual):
