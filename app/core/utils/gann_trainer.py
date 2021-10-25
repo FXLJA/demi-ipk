@@ -60,22 +60,12 @@ class GANNTrainer:
         self.population = sorted(self.population, key=lambda x: x[1], reverse=True)
 
     def _remove_unfit_individuals(self):
-        # TODO : Refactor for more readability
-        population_size = len(self.population)
-        half_population_total = population_size * 0.5
-        index = population_size
-        while population_size > half_population_total:
-            index = (index - 1) % population_size
-            if monte_carlo.test_success(index / population_size):
-                self.population.pop(index)
-            population_size = len(self.population)
+        self.population = [self.population[0]]
 
     def reproduction(self):
         while len(self.population) < self.config.population_size:
-            gann1 = self._get_random_gann_in_population()
-            gann2 = self._get_random_gann_in_population(black_list=[gann1])
-
-            new_gann = gann1.mate(gann2, self.config.mutation_rate)
+            new_gann = self.population[0][0].copy()
+            new_gann.mutate(self.config.mutation_rate)
             self.add_population(new_gann)
 
     def _get_random_gann_in_population(self, black_list=[]):

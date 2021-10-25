@@ -39,6 +39,9 @@ class GANN(ANN):
         new_dna = GANN.merge_dna(dna_self, dna_target, mask)
         return GANN(self.layer_shape, new_dna)
 
+    def copy(self):
+        return GANN(self.layer_shape, self.get_dna())
+
     def get_dna(self):
         return GANN.convert_weights_to_dna(self.layer_weights)
 
