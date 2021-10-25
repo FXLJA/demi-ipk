@@ -46,10 +46,10 @@ IMAGE_FILE_TYPES = (
     ('All files', '*.*')
 )
 DATASET_FILE_TYPES = (
-    ('Image files', '*.csv'),
+    ('CSV files', '*.csv'),
     ('All files', '*.*')
 )
 GANN_FILE_TYPES = (
-    ('Image files', '*.gann'),
+    ('GANN files', '*.gann'),
     ('All files', '*.*')
 )

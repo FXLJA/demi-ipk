@@ -320,13 +320,16 @@ class TrainingFrame(tk.Frame):
             return
 
         filename = filedialog.asksaveasfilename(
-            title="Open a GANN file",
+            title="Save a GANN file",
             initialdir=DEFAULT_GANN_DIR_PATH,
             filetypes=GANN_FILE_TYPES
         )
 
         if filename == "":
             return
+
+        if not filename.endswith(".gann"):
+            filename = filename + ".gann"
 
         best_gann = self.get_best_gann()
         save_gann(filename, best_gann)
