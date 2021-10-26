@@ -164,7 +164,7 @@ class TrainingFrame(tk.Frame):
     def _create_training_ratio_frame(self, root_frame):
         return FrameGroup(
             master=root_frame,
-            title="Training Ratio",
+            title="Test Ratio",
             title_font_size=FONT_SIZE_H2,
             create_content_callback=self._create_training_ratio_content
         )
