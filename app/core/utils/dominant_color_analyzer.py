@@ -1,5 +1,5 @@
-import numpy
 import cv2
+import numpy
 
 from sklearn.cluster import KMeans
 
@@ -25,8 +25,8 @@ class DominantColorAnalyzer:
     def get_top_5_colors(self):
         cluster_sum = numpy.bincount(self.image_cluster_index)
 
-        sorted_index = numpy.argsort(cluster_sum) # return hasil index untuk sorting dari kecil ke besar
-        top_5_index = sorted_index[:-6:-1] # Ambil 5 data dari belakang
+        sorted_index = numpy.argsort(cluster_sum)  # return hasil index untuk sorting dari kecil ke besar
+        top_5_index = sorted_index[:-6:-1]  # Ambil 5 data dari belakang
         return self.dominant_colors[top_5_index]
 
     def get_top_5_colors_percentage(self):
@@ -34,4 +34,4 @@ class DominantColorAnalyzer:
 
         sorted_cluster_sum = numpy.sort(cluster_sum)  # return hasil index untuk sorting dari kecil ke besar
         top_5_cluster_sum = sorted_cluster_sum[:-6:-1]
-        return top_5_cluster_sum / numpy.sum(cluster_sum) # Ambil 5 data dari belakang
+        return top_5_cluster_sum / numpy.sum(cluster_sum)  # Ambil 5 data dari belakang

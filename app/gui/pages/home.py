@@ -1,18 +1,22 @@
 import os.path
 import tkinter as tk
+
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
+
 from PIL import ImageTk, Image
 
 from app.core.common.color_converter import *
 from app.core.utils.color_gann_helper import *
 from app.core.utils.dominant_color_analyzer import DominantColorAnalyzer
+
+from app.config.gui_config import *
+from app.config.global_config import *
+
+from app.gui.common.slider import HSlider
 from app.gui.common.frame_group import FrameGroup
 from app.gui.common.fancy_color import FancyColor
-from app.gui.common.slider import HSlider
-from app.config.global_config import *
-from app.config.gui_config import *
 
 
 class HomeFrame(ttk.Frame):

@@ -1,11 +1,12 @@
-import tkinter.font as tk_font
 import tkinter as tk
 import tkinter.ttk as ttk
+import tkinter.font as tk_font
+
+from app.config.gui_config import *
 
 from app.gui.pages.home import HomeFrame
-from app.gui.pages.training import TrainingFrame
 from app.gui.pages.about import AboutFrame
-from app.config.gui_config import *
+from app.gui.pages.training import TrainingFrame
 
 
 class TogiGUI:

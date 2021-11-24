@@ -1,6 +1,7 @@
-from tkinter import ttk
-import tkinter as tk
 import math
+import tkinter as tk
+
+from tkinter import ttk
 
 
 class HSlider(ttk.Frame):

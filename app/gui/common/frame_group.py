@@ -1,6 +1,6 @@
-from tkinter import ttk
 import tkinter as tk
 
+from tkinter import ttk
 from app.config.gui_config import *
 
 
@@ -8,7 +8,7 @@ class FrameGroup(tk.Frame):
     def __init__(self, title="", title_font_size=24, create_content_callback=None, **kw):
         self._content = None
         self._title = title
-        self._title_font_size= title_font_size
+        self._title_font_size = title_font_size
 
         super().__init__(**kw)
         self._init_components(create_content_callback)

@@ -21,7 +21,7 @@ class ANN:
         result = input
         layer_total = len(self.layer_shape)
 
-        for i in range(layer_total-1):
+        for i in range(layer_total - 1):
             result = self._forward_layer(result, i)
 
         return result

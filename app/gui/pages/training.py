@@ -1,16 +1,20 @@
 import tkinter as tk
+
+from threading import Thread
+
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
-from threading import Thread
 
+from app.core.utils.gann_io import *
 from app.core.utils.color_analyzer_dataset_io import *
 from app.core.utils.gann_trainer import GANNTrainer, GANNTrainerConfig
-from app.core.utils.gann_io import *
-from app.gui.common.frame_group import FrameGroup
-from app.gui.common.slider import HSlider
+
 from app.config.gui_config import *
 from app.config.global_config import *
+
+from app.gui.common.slider import HSlider
+from app.gui.common.frame_group import FrameGroup
 
 
 class TrainingFrame(tk.Frame):
@@ -26,24 +30,24 @@ class TrainingFrame(tk.Frame):
     # region init_components
     def _init_components(self):
         self.root_frame = ttk.Frame(self)
-        self.root_frame.pack(expand=True, fill=tk.BOTH, pady=(0, DEFAULT_PAD_Y*3))
+        self.root_frame.pack(expand=True, fill=tk.BOTH, pady=(0, DEFAULT_PAD_Y * 3))
 
         self.lbl_title = ttk.Label(self.root_frame, text="Training Form", font=(DEFAULT_FONT, FONT_SIZE_H0))
-        self.lbl_title.pack(side=tk.TOP, pady=(0, DEFAULT_PAD_Y*2))
+        self.lbl_title.pack(side=tk.TOP, pady=(0, DEFAULT_PAD_Y * 2))
 
         self.top_frame = ttk.Frame(self.root_frame)
         self._init_top_frame_content(self.top_frame)
         self._configure_top_frame_weight()
-        self.top_frame.pack(side=tk.TOP, fill=tk.BOTH, pady= DEFAULT_PAD_Y*2)
+        self.top_frame.pack(side=tk.TOP, fill=tk.BOTH, pady=DEFAULT_PAD_Y * 2)
 
         self.middle_frame = ttk.Frame(self.root_frame)
         self._init_middle_frame_content(self.middle_frame)
-        self.middle_frame.pack(side=tk.TOP, expand=True, fill=tk.BOTH, pady=DEFAULT_PAD_Y*2)
+        self.middle_frame.pack(side=tk.TOP, expand=True, fill=tk.BOTH, pady=DEFAULT_PAD_Y * 2)
 
         self.bottom_frame = ttk.Frame(self.root_frame)
         self._init_bottom_frame_content(self.bottom_frame)
         self._configure_bottom_frame_weight()
-        self.bottom_frame.pack(side=tk.BOTTOM, fill=tk.X, pady=(DEFAULT_PAD_Y*2, 0))
+        self.bottom_frame.pack(side=tk.BOTTOM, fill=tk.X, pady=(DEFAULT_PAD_Y * 2, 0))
 
     def _init_top_frame_content(self, root_frame):
         self.load_dataset_frame = self._create_load_dataset_frame(root_frame)
@@ -162,6 +166,7 @@ class TrainingFrame(tk.Frame):
             text="Save GANN",
             command=self._on_save_gann_button_pressed
         )
+
     # endregion
     # region middle_frame_components
     def _create_training_ratio_frame(self, root_frame):
@@ -175,7 +180,7 @@ class TrainingFrame(tk.Frame):
     def _create_training_ratio_content(self, root_frame):
         content_frame = ttk.Frame(master=root_frame)
 
-        self.slider_training_ratio= self._create_training_ratio_slider(content_frame)
+        self.slider_training_ratio = self._create_training_ratio_slider(content_frame)
         self.slider_training_ratio.pack(expand=True, fill=tk.X)
 
         return content_frame
@@ -244,6 +249,7 @@ class TrainingFrame(tk.Frame):
             label_format=MUTATION_RATE_TEXT_FORMAT,
             label_width=MUTATION_RATE_TEXT_WIDTH
         )
+
     # endregion
     # region bottom_frame_components
     def _create_btn_training(self, root_frame):
@@ -282,6 +288,7 @@ class TrainingFrame(tk.Frame):
             orient='horizontal',
             mode='determinate'
         )
+
     # endregion
     # endregion
 

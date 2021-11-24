@@ -1,6 +1,7 @@
-from app.core.gann.gann import GANN
 import random
 import app.core.common.monte_carlo as monte_carlo
+
+from app.core.gann.gann import GANN
 
 
 class GANNTrainer:
