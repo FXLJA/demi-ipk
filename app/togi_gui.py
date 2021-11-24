@@ -36,6 +36,8 @@ class TogiGUI:
 
 if __name__ == '__main__':
     root = tk.Tk()
+    root.tk.call("source", "azure.tcl")
+    root.tk.call("set_theme", "light")
     root.title("Togi - The Ultimate Movie Poster Analyzer")
     TogiGUI(root)
     root.mainloop()
