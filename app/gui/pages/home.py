@@ -49,7 +49,10 @@ class HomeFrame(ttk.Frame):
         self.poster_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(0, DEFAULT_PAD_X))
 
         self.color_frame = self._create_color_frame(root_frame)
-        self.color_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(DEFAULT_PAD_X, 0))
+        self.color_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(DEFAULT_PAD_X, DEFAULT_PAD_X))
+
+        self.histogram_frame = self._create_histogram_frame(root_frame)
+        self.histogram_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(DEFAULT_PAD_X, 0))
 
     # region upper_frame_components
     def _create_search_image_frame(self, root_frame):
@@ -67,12 +70,12 @@ class HomeFrame(ttk.Frame):
         self.entry_search_image.pack(side=tk.LEFT, expand=True, fill=tk.X)
 
         self.btn_search_image = self._create_search_image_button(content_frame)
-        self.btn_search_image.pack(side=tk.RIGHT)
+        self.btn_search_image.pack(side=tk.RIGHT, padx=DEFAULT_PAD_X)
 
         return content_frame
 
     def _create_entry_search_image(self, root_frame):
-        entry = ttk.Entry(root_frame, width=10, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
+        entry = ttk.Entry(root_frame, width=30, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
         entry.insert(0, DEFAULT_POSTER_FILE_PATH)
         return entry
 
@@ -86,7 +89,7 @@ class HomeFrame(ttk.Frame):
     def _create_k_value_frame(self, root_frame):
         return FrameGroup(
             master=root_frame,
-            title="K Value",
+            title="K-Value",
             title_font_size=FONT_SIZE_H2,
             create_content_callback=self._create_k_value_content
         )
@@ -174,6 +177,24 @@ class HomeFrame(ttk.Frame):
         fancy_color = FancyColor(master=root_frame)
         fancy_color.pack(side=tk.TOP, pady=8)
         return fancy_color
+
+    def _create_histogram_frame(self, root_frame):
+        return FrameGroup(
+            master=root_frame,
+            title="Histogram",
+            title_font_size=FONT_SIZE_H1,
+            create_content_callback=self._create_histogram_content
+        )
+
+    def _create_histogram_content(self, root_frame):
+        content_frame = ttk.Frame(master=root_frame)
+
+        self.canvas_histogram = tk.Canvas(root_frame, width=HISTOGRAM_CANVAS_WIDTH, height=HISTOGRAM_CANVAS_HEIGHT)
+        self.canvas_histogram.create_rectangle(0, 0, HISTOGRAM_CANVAS_WIDTH, HISTOGRAM_CANVAS_HEIGHT, fill='white')
+        self.canvas_histogram.pack()
+
+        return content_frame
+
     # endregion
     # endregion
 

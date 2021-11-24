@@ -26,12 +26,15 @@ class TrainingFrame(tk.Frame):
     # region init_components
     def _init_components(self):
         self.root_frame = ttk.Frame(self)
-        self.root_frame.pack(expand=True, fill=tk.X, pady=(0, DEFAULT_PAD_Y*3))
+        self.root_frame.pack(expand=True, fill=tk.BOTH, pady=(0, DEFAULT_PAD_Y*3))
+
+        self.lbl_title = ttk.Label(self.root_frame, text="Training Form", font=(DEFAULT_FONT, FONT_SIZE_H0))
+        self.lbl_title.pack(side=tk.TOP, pady=(0, DEFAULT_PAD_Y*2))
 
         self.top_frame = ttk.Frame(self.root_frame)
         self._init_top_frame_content(self.top_frame)
         self._configure_top_frame_weight()
-        self.top_frame.pack(side=tk.TOP, fill=tk.BOTH, pady=(0, DEFAULT_PAD_Y*2))
+        self.top_frame.pack(side=tk.TOP, fill=tk.BOTH, pady= DEFAULT_PAD_Y*2)
 
         self.middle_frame = ttk.Frame(self.root_frame)
         self._init_middle_frame_content(self.middle_frame)
@@ -108,7 +111,7 @@ class TrainingFrame(tk.Frame):
         return content_frame
 
     def _create_entry_load_dataset(self, root_frame):
-        entry = ttk.Entry(root_frame, width=10, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
+        entry = ttk.Entry(root_frame, width=30, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
         entry.insert(0, DEFAULT_DATASET_FILE_PATH)
         return entry
 
@@ -142,7 +145,7 @@ class TrainingFrame(tk.Frame):
         return content_frame
 
     def _create_entry_load_gann(self, root_frame):
-        entry = ttk.Entry(root_frame, width=10, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
+        entry = ttk.Entry(root_frame, width=30, font=(DEFAULT_FONT, FONT_SIZE_NORMAL))
         entry.insert(0, DEFAULT_GANN_FILE_PATH)
         return entry
 
