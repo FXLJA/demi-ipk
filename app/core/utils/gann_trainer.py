@@ -130,8 +130,13 @@ class ScoreEvaluator:
     def _calc_score(x, y):
         score = 0.0
         for i in range(len(x)):
-            score += abs(x[i] - y[i])
-        return 1.0 - (score / len(x))
+            if y[i] == 1:
+                score += abs(x[i] - y[i]) * 2
+            else:
+                score += abs(x[i] - y[i])
+        score = 1.0 - (score * 0.25)
+
+        return score
 
 
 class GANNTrainerConfig:

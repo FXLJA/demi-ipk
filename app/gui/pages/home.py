@@ -204,11 +204,11 @@ class HomeFrame(ttk.Frame):
             return
 
         colors, percentages = self._analyze_poster(filename, k_means_value)
-        poster_theme = self._get_poster_theme(main_gann, colors, percentages)
+        poster_theme, gann_result = self._get_poster_theme(main_gann, colors, percentages)
 
         self.set_poster_image(filename)
         self.set_displayed_dominant_colors(colors)
-        self._display_poster_theme_result(poster_theme)
+        self._display_poster_theme_result(poster_theme, gann_result)
 
     def set_best_gann(self, gann):
         self.togi_gui.best_gann = gann
@@ -258,9 +258,10 @@ class HomeFrame(ttk.Frame):
     def _get_poster_theme(self, main_gann, colors, percentages):
         gann_input = create_to_gann_input(colors / 255.0, percentages)
         gann_result = main_gann.forward(gann_input)
-        return self.get_catagory_from_gann_result(gann_result)
+        return self.get_catagory_from_gann_result(gann_result), gann_result
 
-    def _display_poster_theme_result(self, poster_theme):
+    def _display_poster_theme_result(self, poster_theme, themes):
         title = "Analyse Result"
         msg = "The Poster's color scheme is indicating:\n\n%s (Confidence: %.2f%%)" % poster_theme
+        msg += "\n Horror: %.6f \n Romance: %.6f \n Sci-Fi: %.6f" % (themes[0][0], themes[0][1], themes[0][2])
         messagebox.showinfo(title, msg)
