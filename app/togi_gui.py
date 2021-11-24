@@ -4,6 +4,7 @@ import tkinter.ttk as ttk
 
 from app.gui.pages.home import HomeFrame
 from app.gui.pages.training import TrainingFrame
+from app.gui.pages.about import AboutFrame
 from app.config.gui_config import *
 
 
@@ -19,10 +20,12 @@ class TogiGUI:
 
         home_frame = HomeFrame(togi_gui=self, master=tab_parent)
         training_frame = TrainingFrame(togi_gui=self, master=tab_parent)
+        about_frame = AboutFrame(togi_gui=self, master=tab_parent)
 
         padding = (DEFAULT_PAD_X, DEFAULT_PAD_Y, DEFAULT_PAD_X, DEFAULT_PAD_Y)
         tab_parent.add(home_frame, text="Home", padding=padding)
         tab_parent.add(training_frame, text="Training", padding=padding)
+        tab_parent.add(about_frame, text="About", padding=padding)
         tab_parent.pack(expand=True, fill=tk.BOTH)
 
     def update_default_font(self):

@@ -53,3 +53,11 @@ GANN_FILE_TYPES = (
     ('GANN files', '*.gann'),
     ('All files', '*.*')
 )
+
+ABOUT_TITLE = "Biodata Pengembang"
+ABOUT_DESCRIPTION = """
+Nama: \t \t Jason Alexander
+NIM: \t \t 32180082
+Kelas: \t \t 7PTI1
+Dosen Pembimbing: \t Teady Matius Surya Mulyana, S.Kom., M.Kom.
+"""
