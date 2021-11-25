@@ -288,5 +288,5 @@ class HomeFrame(ttk.Frame):
     def _display_poster_theme_result(self, poster_theme, themes):
         title = "Analyse Result"
         msg = "The Poster's color scheme is indicating:\n\n%s (Confidence: %.2f%%)" % poster_theme
-        msg += "\n Horror: %.6f \n Romance: %.6f \n Sci-Fi: %.6f" % (themes[0][0], themes[0][1], themes[0][2])
+        msg += "\n Horror: %.4f \n Romance: %.4f \n Sci-Fi: %.4f" % (themes[0][0], themes[0][1], themes[0][2])
         messagebox.showinfo(title, msg)
