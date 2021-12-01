@@ -26,34 +26,27 @@ class AboutFrame(tk.Frame):
 
     def _init_components(self):
         self.image_buffers = []
-        self.about_panel = FrameGroup(
-            master=self,
-            title=ABOUT_TITLE,
-            title_font_size=FONT_SIZE_H1,
-            create_content_callback=self._create_about_content)
-        self.about_panel.pack(expand=True, fill=tk.BOTH)
 
-    def _create_about_content(self, root_frame):
-        content_frame = ttk.Frame(master=root_frame)
+        self.lbl_title = ttk.Label(self, text="Biodata Pengembang", font=(DEFAULT_FONT, FONT_SIZE_H0))
+        self.lbl_title.pack(side=tk.TOP, pady=(0, DEFAULT_PAD_Y * 2))
 
-        self.top_panel = ttk.Frame(content_frame)
+        self.top_panel = ttk.Frame(self)
         self._init_top_panel(self.top_panel)
-        self.top_panel.pack(expand=True, fill=tk.BOTH)
+        self.top_panel.pack(expand=True, fill=tk.Y)
 
-        self.bottom_panel = ttk.Frame(content_frame)
+        self.bottom_panel = ttk.Frame(self)
         self._init_bottom_panel(self.bottom_panel)
-        self.bottom_panel.pack(expand=True, fill=tk.BOTH)
-
-        return content_frame
+        self.bottom_panel.pack()
 
     def _init_top_panel(self, root_frame):
         self.profile_picture = tk.Canvas(root_frame, width=PROFILE_PICTURE_WIDTH, height=PROFILE_PICTURE_HEIGHT)
         self.profile_picture.create_rectangle(0, 0, PROFILE_PICTURE_WIDTH, PROFILE_PICTURE_HEIGHT, fill='white')
-        self.profile_picture.pack(side=tk.LEFT)
+        self._init_profile_picture(self.profile_picture)
+        self.profile_picture.pack(side=tk.LEFT, padx=(0, DEFAULT_PAD_X * 5))
 
         self.biodata_panel = ttk.Frame(root_frame)
         self._init_biodata_panel(self.biodata_panel)
-        self.biodata_panel.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+        self.biodata_panel.pack(side=tk.LEFT)
 
     def _init_bottom_panel(self, root_frame):
         self.icon_discord = self._create_clickable_icon(root_frame, DISCORD_PICTURE_PATH, self._on_discord_picture_clicked)
@@ -69,27 +62,34 @@ class AboutFrame(tk.Frame):
         self.icon_steam.pack(side=tk.LEFT)
 
     # region top_panel_components
+    def _init_profile_picture(self, canvas):
+        img_raw = Image.open(PROFILE_PICTURE_PATH)
+        img = ImageTk.PhotoImage(img_raw)
+        self.image_buffers += [img]
+
+        canvas.create_image(0, 0, anchor=tk.NW, image=img)
+
     def _init_biodata_panel(self, root_frame):
         self.lbl_name_caption = self._create_label(root_frame, "Nama")
-        self.lbl_name_caption.grid(row=0, column=0, sticky="w")
+        self.lbl_name_caption.grid(row=0, column=0, sticky="w", padx=(0, DEFAULT_PAD_X * 5), pady=DEFAULT_PAD_Y)
 
         self.lbl_name_content = self._create_label(root_frame, ABOUT_NAME)
         self.lbl_name_content.grid(row=0, column=1, sticky="w")
 
         self.lbl_nim_caption = self._create_label(root_frame, "NIM")
-        self.lbl_nim_caption.grid(row=1, column=0, sticky="w")
+        self.lbl_nim_caption.grid(row=1, column=0, sticky="w", padx=(0, DEFAULT_PAD_X * 5), pady=DEFAULT_PAD_Y)
 
         self.lbl_nim_content = self._create_label(root_frame, ABOUT_NIM)
         self.lbl_nim_content.grid(row=1, column=1, sticky="w")
 
         self.lbl_class_caption = self._create_label(root_frame, "Kelas")
-        self.lbl_class_caption.grid(row=2, column=0, sticky="w")
+        self.lbl_class_caption.grid(row=2, column=0, sticky="w", padx=(0, DEFAULT_PAD_X * 5), pady=DEFAULT_PAD_Y)
 
         self.lbl_class_content = self._create_label(root_frame, ABOUT_CLASS)
         self.lbl_class_content.grid(row=2, column=1, sticky="w")
 
         self.lbl_lecturer_caption = self._create_label(root_frame, "Dosen")
-        self.lbl_lecturer_caption.grid(row=3, column=0, sticky="w")
+        self.lbl_lecturer_caption.grid(row=3, column=0, sticky="w", padx=(0, DEFAULT_PAD_X * 5), pady=DEFAULT_PAD_Y)
 
         self.lbl_lecturer_content = self._create_label(root_frame, ABOUT_LECTURER)
         self.lbl_lecturer_content.grid(row=3, column=1, sticky="w")
@@ -98,7 +98,7 @@ class AboutFrame(tk.Frame):
         return ttk.Label(
             master=root_frame,
             text=text,
-            font=(DEFAULT_FONT, FONT_SIZE_NORMAL)
+            font=(DEFAULT_FONT, FONT_SIZE_H2)
         )
 
     # endregion top_panel_components

@@ -262,13 +262,13 @@ class TrainingFrame(tk.Frame):
     def _create_lbl_test_score(self, root_frame):
         return ttk.Label(
             master=root_frame,
-            text="Test Score: 100.00000%"
+            text="Test Score: 100.0000%"
         )
 
     def _create_lbl_train_score(self, root_frame):
         return ttk.Label(
             master=root_frame,
-            text="Training Score: 100.00000%"
+            text="Training Score: 100.0000%"
         )
 
     def _create_cb_auto_train(self, root_frame):
@@ -392,10 +392,10 @@ class TrainingFrame(tk.Frame):
         self.entry_load_gann.insert(0, new_text)
 
     def set_training_score_text(self, score):
-        self.lbl_train_score.config(text="Training Score: %.5f%%" % (score * 100))
+        self.lbl_train_score.config(text="Training Score: %.4f%%" % (score * 100))
 
     def set_test_score_text(self, score):
-        self.lbl_test_score.config(text="Test Score: %.5f%%" % (score * 100))
+        self.lbl_test_score.config(text="Test Score: %.4f%%" % (score * 100))
 
     def get_training_ratio(self):
         return self.slider_training_ratio.get_value()

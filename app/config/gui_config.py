@@ -70,8 +70,8 @@ LINK_GITHUB = "https://github.com/FXLJA"
 LINK_LINKEDIN = "https://www.linkedin.com/in/fxlja/"
 LINK_STEAM = "https://steamcommunity.com/id/fxlja1411/"
 
-PROFILE_PICTURE_WIDTH = 200
-PROFILE_PICTURE_HEIGHT = 200
+PROFILE_PICTURE_WIDTH = 300
+PROFILE_PICTURE_HEIGHT = 300
 
 PROJECT_PATH = "C:/Users/Jason Alexander/Documents/GitHub/togi/"
 
