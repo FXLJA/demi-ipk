@@ -21,7 +21,7 @@ class TogiGUI:
 
         home_frame = HomeFrame(togi_gui=self, master=tab_parent)
         training_frame = TrainingFrame(togi_gui=self, master=tab_parent)
-        about_frame = AboutFrame(togi_gui=self, master=tab_parent)
+        about_frame = AboutFrame(master=tab_parent)
 
         padding = (DEFAULT_PAD_X, DEFAULT_PAD_Y, DEFAULT_PAD_X, DEFAULT_PAD_Y)
         tab_parent.add(home_frame, text="Home", padding=padding)

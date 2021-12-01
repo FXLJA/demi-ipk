@@ -59,9 +59,17 @@ GANN_FILE_TYPES = (
 )
 
 ABOUT_TITLE = "Biodata Pengembang"
-ABOUT_DESCRIPTION = """
-Nama \t \t : Jason Alexander
-NIM \t \t : 32180082
-Kelas \t \t : 7PTI1
-Dosen Pembimbing \t : Teady Matius Surya Mulyana, S.Kom., M.Kom.
-"""
+
+ABOUT_NAME = "Jason Alexander"
+ABOUT_NIM = "32180082"
+ABOUT_CLASS = "TIA05 - 7PTI"
+ABOUT_LECTURER = "Teady Matius Surya Mulyana, S.Kom., M.Kom."
+
+LINK_DISCORD = "https://discordapp.com/users/4106"
+LINK_GITHUB = "https://github.com/FXLJA"
+LINK_LINKEDIN = "https://www.linkedin.com/in/fxlja/"
+LINK_STEAM = "https://www.linkedin.com/in/fxlja/"
+
+PROFILE_PICTURE_WIDTH = 200
+PROFILE_PICTURE_HEIGHT = 200
+PROFILE_PICTURE_PATH = "app/asset/32180082.jpg"
