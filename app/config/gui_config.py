@@ -68,8 +68,15 @@ ABOUT_LECTURER = "Teady Matius Surya Mulyana, S.Kom., M.Kom."
 LINK_DISCORD = "https://discordapp.com/users/4106"
 LINK_GITHUB = "https://github.com/FXLJA"
 LINK_LINKEDIN = "https://www.linkedin.com/in/fxlja/"
-LINK_STEAM = "https://www.linkedin.com/in/fxlja/"
+LINK_STEAM = "https://steamcommunity.com/id/fxlja1411/"
 
 PROFILE_PICTURE_WIDTH = 200
 PROFILE_PICTURE_HEIGHT = 200
-PROFILE_PICTURE_PATH = "app/asset/32180082.jpg"
+
+PROJECT_PATH = "C:/Users/Jason Alexander/Documents/GitHub/togi/"
+
+PROFILE_PICTURE_PATH = PROJECT_PATH + "app/asset/32180082.jpg"
+DISCORD_PICTURE_PATH = PROJECT_PATH + "app/asset/discord.png"
+GITHUB_PICTURE_PATH = PROJECT_PATH + "app/asset/github.png"
+LINKEDIN_PICTURE_PATH = PROJECT_PATH + "app/asset/linkedin.png"
+STEAM_PICTURE_PATH = PROJECT_PATH + "app/asset/steam.png"

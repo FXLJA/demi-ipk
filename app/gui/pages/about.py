@@ -1,3 +1,4 @@
+import webbrowser
 import tkinter as tk
 
 from tkinter import ttk
@@ -5,6 +6,7 @@ from tkinter import filedialog
 from tkinter import messagebox
 
 from threading import Thread
+from PIL import ImageTk, Image
 
 from app.core.utils.gann_io import *
 from app.core.utils.color_analyzer_dataset_io import *
@@ -23,6 +25,7 @@ class AboutFrame(tk.Frame):
         self._init_components()
 
     def _init_components(self):
+        self.image_buffers = []
         self.about_panel = FrameGroup(
             master=self,
             title=ABOUT_TITLE,
@@ -38,6 +41,7 @@ class AboutFrame(tk.Frame):
         self.top_panel.pack(expand=True, fill=tk.BOTH)
 
         self.bottom_panel = ttk.Frame(content_frame)
+        self._init_bottom_panel(self.bottom_panel)
         self.bottom_panel.pack(expand=True, fill=tk.BOTH)
 
         return content_frame
@@ -50,6 +54,19 @@ class AboutFrame(tk.Frame):
         self.biodata_panel = ttk.Frame(root_frame)
         self._init_biodata_panel(self.biodata_panel)
         self.biodata_panel.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
+
+    def _init_bottom_panel(self, root_frame):
+        self.icon_discord = self._create_clickable_icon(root_frame, DISCORD_PICTURE_PATH, self._on_discord_picture_clicked)
+        self.icon_discord.pack(side=tk.LEFT)
+
+        self.icon_github = self._create_clickable_icon(root_frame, GITHUB_PICTURE_PATH, self._on_github_picture_clicked)
+        self.icon_github.pack(side=tk.LEFT)
+
+        self.icon_linkedin = self._create_clickable_icon(root_frame, LINKEDIN_PICTURE_PATH, self._on_linkedin_picture_clicked)
+        self.icon_linkedin.pack(side=tk.LEFT)
+
+        self.icon_steam = self._create_clickable_icon(root_frame, STEAM_PICTURE_PATH, self._on_steam_picture_clicked)
+        self.icon_steam.pack(side=tk.LEFT)
 
     # region top_panel_components
     def _init_biodata_panel(self, root_frame):
@@ -80,11 +97,31 @@ class AboutFrame(tk.Frame):
     def _create_label(self, root_frame, text):
         return ttk.Label(
             master=root_frame,
-            text= text,
+            text=text,
             font=(DEFAULT_FONT, FONT_SIZE_NORMAL)
         )
+
     # endregion top_panel_components
 
     # region bottom_panel_components
+    def _create_clickable_icon(self, root_frame, image_path, callback):
+        image_raw = Image.open(image_path)
+        image = ImageTk.PhotoImage(image_raw)
+
+        self.image_buffers += [image]
+        lbl = ttk.Label(master=root_frame, image=image, text="test")
+        lbl.bind('<Button-1>', callback)
+        return lbl
 
     # endregion bottom_panel_components
+    def _on_discord_picture_clicked(self, event):
+        webbrowser.open(LINK_DISCORD)
+
+    def _on_github_picture_clicked(self, event):
+        webbrowser.open(LINK_GITHUB)
+
+    def _on_linkedin_picture_clicked(self, event):
+        webbrowser.open(LINK_LINKEDIN)
+
+    def _on_steam_picture_clicked(self, event):
+        webbrowser.open(LINK_STEAM)
