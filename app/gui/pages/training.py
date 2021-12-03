@@ -98,7 +98,7 @@ class TrainingFrame(tk.Frame):
     def _create_load_dataset_frame(self, root_frame):
         return FrameGroup(
             master=root_frame,
-            title="Load Data Set",
+            title="Load Dataset",
             title_font_size=FONT_SIZE_H2,
             create_content_callback=self._create_load_dataset_content
         )
@@ -129,7 +129,7 @@ class TrainingFrame(tk.Frame):
     def _create_load_gann_frame(self, root_frame):
         return FrameGroup(
             master=root_frame,
-            title="Load GANN",
+            title="Load GNN",
             title_font_size=FONT_SIZE_H2,
             create_content_callback=self._create_load_gann_content
         )
@@ -163,7 +163,7 @@ class TrainingFrame(tk.Frame):
     def _create_btn_save_gann(self, root_frame):
         return ttk.Button(
             master=root_frame,
-            text="Save GANN",
+            text="Save GNN",
             command=self._on_save_gann_button_pressed
         )
 
@@ -310,7 +310,7 @@ class TrainingFrame(tk.Frame):
 
     def _on_load_gann_search_button_pressed(self):
         filename = filedialog.askopenfilename(
-            title="Open a GANN file",
+            title="Open a GNN file",
             initialdir=DEFAULT_GANN_DIR_PATH,
             filetypes=GANN_FILE_TYPES
         )
@@ -326,11 +326,11 @@ class TrainingFrame(tk.Frame):
 
     def _on_save_gann_button_pressed(self):
         if self.get_best_gann() is None:
-            messagebox.showerror("Missing GANN!", "GANN belom ada, udah main simpen-simpen aja ya")
+            messagebox.showerror("Missing GNN!", "GANN belom ada, udah main simpen-simpen aja ya")
             return
 
         filename = filedialog.asksaveasfilename(
-            title="Save a GANN file",
+            title="Save a GNN file",
             initialdir=DEFAULT_GANN_DIR_PATH,
             filetypes=GANN_FILE_TYPES
         )
