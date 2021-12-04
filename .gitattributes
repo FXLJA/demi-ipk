@@ -2,3 +2,4 @@
 * text=auto
 *.ps1 linguist-detectable=false
 *.bat linguist-detectable=false
+*.tcl linguist-detectable=false
