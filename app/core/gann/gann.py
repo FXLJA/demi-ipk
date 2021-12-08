@@ -40,12 +40,6 @@ class GANN(ANN):
         new_dna = GANN.cross_over_dna(dna_self, dna_target, mask)
         return GANN(self.layer_shape, new_dna)
 
-    def get_dna(self):
-        return GANN.convert_weights_to_dna(self.layer_weights)
-
-    def set_dna(self, new_dna):
-        self.layer_weights = GANN.convert_dna_to_weights(new_dna, self.layer_shape)
-
     @staticmethod
     def cross_over_dna(dna0, dna1, mask):
         new_dna = []
@@ -81,3 +75,9 @@ class GANN(ANN):
             start_snip_index += weight_total
 
         return layer_weights
+
+    def get_dna(self):
+        return GANN.convert_weights_to_dna(self.layer_weights)
+
+    def set_dna(self, new_dna):
+        self.layer_weights = GANN.convert_dna_to_weights(new_dna, self.layer_shape)
