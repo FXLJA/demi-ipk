@@ -21,7 +21,7 @@ class TestGANN(unittest.TestCase):
         dna1 = [1, 3, 5, 7, 9]
         mask = [False, True, True, False, True]
 
-        result = GANN.merge_dna(dna0, dna1, mask)
+        result = GANN.cross_over_dna(dna0, dna1, mask)
 
         numpy.testing.assert_array_equal(result, [0, 3, 5, 6, 9])
 

@@ -37,7 +37,7 @@ class GANN(ANN):
         dna_self = self.get_dna()
         dna_target = target.get_dna()
         mask = monte_carlo.generate(0.5, len(dna_self))
-        new_dna = GANN.merge_dna(dna_self, dna_target, mask)
+        new_dna = GANN.cross_over_dna(dna_self, dna_target, mask)
         return GANN(self.layer_shape, new_dna)
 
     def get_dna(self):
@@ -47,7 +47,7 @@ class GANN(ANN):
         self.layer_weights = GANN.convert_dna_to_weights(new_dna, self.layer_shape)
 
     @staticmethod
-    def merge_dna(dna0, dna1, mask):
+    def cross_over_dna(dna0, dna1, mask):
         new_dna = []
         for i in range(len(mask)):
             if mask[i]:
