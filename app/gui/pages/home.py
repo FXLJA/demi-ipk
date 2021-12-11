@@ -1,4 +1,5 @@
 import os.path
+import matplotlib
 import tkinter as tk
 
 from tkinter import ttk
@@ -17,6 +18,10 @@ from app.config.global_config import *
 from app.gui.common.slider import HSlider
 from app.gui.common.frame_group import FrameGroup
 from app.gui.common.fancy_color import FancyColor
+
+from matplotlib.figure import Figure
+from matplotlib.backend_bases import key_press_handler
+from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
 
 class HomeFrame(ttk.Frame):
@@ -193,9 +198,10 @@ class HomeFrame(ttk.Frame):
     def _create_histogram_content(self, root_frame):
         content_frame = ttk.Frame(master=root_frame)
 
-        self.canvas_histogram = tk.Canvas(root_frame, width=HISTOGRAM_CANVAS_WIDTH, height=HISTOGRAM_CANVAS_HEIGHT)
-        self.canvas_histogram.create_rectangle(0, 0, HISTOGRAM_CANVAS_WIDTH, HISTOGRAM_CANVAS_HEIGHT, fill='white')
-        self.canvas_histogram.pack()
+        self.histogram_fig = Figure(figsize=(HISTOGRAM_CANVAS_WIDTH, HISTOGRAM_CANVAS_HEIGHT), dpi=100)
+
+        self.canvas_histogram = FigureCanvasTkAgg(self.histogram_fig, master=root_frame)
+        self.canvas_histogram.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
         return content_frame
 
@@ -233,7 +239,20 @@ class HomeFrame(ttk.Frame):
 
         self.set_poster_image(filename)
         self.set_displayed_dominant_colors(colors)
+        self.update_histogram()
         self._display_poster_theme_result(poster_theme, gann_result)
+
+    def update_histogram(self):
+        if self.histogram_fig.axes:
+            self.histogram_fig.delaxes(self.histogram_fig.axes[0])
+
+        img = cv2.imread(self.get_poster_filename())
+        color = ('b', 'g', 'r')
+        plt = self.histogram_fig.add_subplot(111)
+        for i, col in enumerate(color):
+            hist = cv2.calcHist([img], [i], None, [256], [0, 256])
+            plt.plot(hist, color=col)
+        self.canvas_histogram.draw()
 
     def set_best_gann(self, gann):
         self.togi_gui.best_gann = gann
