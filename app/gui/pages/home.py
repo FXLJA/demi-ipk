@@ -192,16 +192,16 @@ class HomeFrame(ttk.Frame):
             master=root_frame,
             title="Histogram",
             title_font_size=FONT_SIZE_H1,
-            create_content_callback=self._create_histogram_content
+            create_content_callback=self._create_histogram_content,
         )
 
     def _create_histogram_content(self, root_frame):
         content_frame = ttk.Frame(master=root_frame)
 
-        self.histogram_fig = Figure(figsize=(HISTOGRAM_CANVAS_WIDTH, HISTOGRAM_CANVAS_HEIGHT), dpi=100)
+        self.histogram_fig = Figure(figsize=(HISTOGRAM_CANVAS_WIDTH, HISTOGRAM_CANVAS_HEIGHT), dpi=100, tight_layout=True)
 
         self.canvas_histogram = FigureCanvasTkAgg(self.histogram_fig, master=root_frame)
-        self.canvas_histogram.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+        self.canvas_histogram.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1, pady=(0, DEFAULT_PAD_Y / 2))
 
         return content_frame
 
@@ -249,9 +249,13 @@ class HomeFrame(ttk.Frame):
         img = cv2.imread(self.get_poster_filename())
         color = ('b', 'g', 'r')
         plt = self.histogram_fig.add_subplot(111)
+        plt.set_xlabel('Nilai channel')
+        plt.set_ylabel('Jumlah piksel')
+
         for i, col in enumerate(color):
             hist = cv2.calcHist([img], [i], None, [256], [0, 256])
             plt.plot(hist, color=col)
+
         self.canvas_histogram.draw()
 
     def set_best_gann(self, gann):
