@@ -5,7 +5,7 @@ import app.core.utils.color_analyzer_dataset_io as dataset_io
 
 GENERATED_FILE_NAME = "dataset.csv"
 K_MEANS_CLUSTER_TOTAL = 8
-FILE_PATH_FORMAT = "./posters/{}/{}.jpg"
+FILE_PATH_FORMAT = "./{}/{}.jpg"
 CATAGORY_AND_FOLDER = (
     (ColorAnalyzerData.HORROR, "Horror"),
     (ColorAnalyzerData.ROMANTIC, "Romance"),
@@ -34,7 +34,7 @@ if __name__ == '__main__':
     dataset = []
     for catagory, folder_name in CATAGORY_AND_FOLDER:
         for index in range(100):
-            file_name = FILE_PATH_FORMAT.format(folder_name, index+1)
+            file_name = FILE_PATH_FORMAT.format(folder_name, '{0:03}'.format(index+1))
             color_pairs = create_color_pairs(file_name)
             color_data = ColorAnalyzerData(color_pairs, catagory)
             dataset.append(color_data)

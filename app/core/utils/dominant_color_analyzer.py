@@ -13,6 +13,7 @@ class DominantColorAnalyzer:
     def analyze_path(self, image_path):
         image = cv2.imread(image_path)
         if image is None:
+            print('Image %s not found!' % image_path)
             return
         yuvImage = cv2.cvtColor(image, cv2.COLOR_BGR2YUV)
         self.analyze_image(yuvImage)

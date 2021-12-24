@@ -121,11 +121,10 @@ class ScoreEvaluator:
         score = 0.0
         for i in range(len(x)):
             if y[i] == 1:
-                score += abs(x[i] - y[i]) * 2
+                score += abs(x[i] - y[i]) * 2.0
             else:
                 score += abs(x[i] - y[i])
         score = 1.0 - (score * 0.25)
-
         return score
 
 
