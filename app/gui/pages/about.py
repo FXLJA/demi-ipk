@@ -42,11 +42,11 @@ class AboutFrame(tk.Frame):
         self.profile_picture = tk.Canvas(root_frame, width=PROFILE_PICTURE_WIDTH, height=PROFILE_PICTURE_HEIGHT)
         self.profile_picture.create_rectangle(0, 0, PROFILE_PICTURE_WIDTH, PROFILE_PICTURE_HEIGHT, fill='white')
         self._init_profile_picture(self.profile_picture)
-        self.profile_picture.pack(side=tk.LEFT, padx=(0, DEFAULT_PAD_X * 5))
+        self.profile_picture.pack(side=tk.TOP, pady=(0, DEFAULT_PAD_Y * 5))
 
         self.biodata_panel = ttk.Frame(root_frame)
         self._init_biodata_panel(self.biodata_panel)
-        self.biodata_panel.pack(side=tk.LEFT)
+        self.biodata_panel.pack(side=tk.TOP)
 
     def _init_bottom_panel(self, root_frame):
         self.icon_discord = self._create_clickable_icon(root_frame, DISCORD_PICTURE_PATH, self._on_discord_picture_clicked)

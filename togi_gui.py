@@ -6,13 +6,11 @@ from app.config.gui_config import *
 
 from app.gui.pages.home import HomeFrame
 from app.gui.pages.about import AboutFrame
-from app.gui.pages.training import TrainingFrame
 
 
 class TogiGUI:
     def __init__(self, root):
         self.root = root
-        self.best_gann = None
         self._init_components()
         self.update_default_font()
 
@@ -20,12 +18,10 @@ class TogiGUI:
         tab_parent = ttk.Notebook(self.root)
 
         home_frame = HomeFrame(togi_gui=self, master=tab_parent)
-        training_frame = TrainingFrame(togi_gui=self, master=tab_parent)
         about_frame = AboutFrame(master=tab_parent)
 
         padding = (DEFAULT_PAD_X, DEFAULT_PAD_Y, DEFAULT_PAD_X, DEFAULT_PAD_Y)
         tab_parent.add(home_frame, text="Home", padding=padding)
-        tab_parent.add(training_frame, text="Training", padding=padding)
         tab_parent.add(about_frame, text="About", padding=padding)
         tab_parent.pack(expand=True, fill=tk.BOTH)
 
@@ -40,6 +36,6 @@ if __name__ == '__main__':
     root.tk.call("source", "azure.tcl")
     root.tk.call("set_theme", "light")
     root.title("Togi - The Ultimate Movie Poster Analyzer")
-    root.minsize(1200, 500)
+    root.minsize(640, 720)
     TogiGUI(root)
     root.mainloop()
