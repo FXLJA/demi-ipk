@@ -38,15 +38,17 @@ class HomeFrame(ttk.Frame):
 
     def _init_components(self):
         self.top_frame = ttk.Frame(self)
+
         self.btn_cari = ttk.Button(self.top_frame, text="Open FIle", command=self._on_btn_cari_pressed)
         self.btn_cari.pack(side=tk.LEFT, padx=(0, DEFAULT_PAD_X))
+
         self.btn_analyze = ttk.Button(self.top_frame, text="Check Genre", command=self._on_btn_analyze_pressed)
         self.btn_analyze.pack(side=tk.LEFT)
+
         self.top_frame.pack(side=tk.TOP, pady=(0, DEFAULT_PAD_Y*3))
 
         self.image_frame = tk.Canvas(self, width=POSTER_CANVAS_WIDTH, height=POSTER_CANVAS_HEIGHT)
         self.image_frame.pack(side=tk.TOP)
-
 
     def _on_btn_cari_pressed(self):
         filename = filedialog.askopenfilename(
