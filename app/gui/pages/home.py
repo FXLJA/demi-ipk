@@ -269,8 +269,15 @@ class HomeFrame(ttk.Frame):
         self.entry_search_image.insert(0, new_text)
 
     def set_poster_image(self, filename):
-        self.poster_img_raw = Image.open(filename)
-        self.poster_img = ImageTk.PhotoImage(self.poster_img_raw)
+        image = cv2.imread(filename)
+
+        if image is None:
+            messagebox.showerror("Error load image", "Failed to load image at %s" % image_path)
+            return
+
+        hasil = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        hasil = cv2.resize(hasil, (int(POSTER_CANVAS_WIDTH), int(POSTER_CANVAS_HEIGHT)))
+        self.poster_img = ImageTk.PhotoImage(Image.fromarray(hasil))
         self.canvas_poster.create_image(0, 0, anchor=tk.NW, image=self.poster_img)
 
     def set_displayed_dominant_colors(self, colors):
@@ -287,13 +294,13 @@ class HomeFrame(ttk.Frame):
     def get_catagory_from_gann_result(self, gann_result):
         gann_result = gann_result[0]
 
-        if gann_result[0] > gann_result[1] and gann_result[0] > gann_result[2]:
+        if gann_result[0] > gann_result[1] and gann_result[0] > gann_result[2] and gann_result[0] > 0.5:
             return "Horror", gann_result[0] * 100
-        if gann_result[1] > gann_result[0] and gann_result[1] > gann_result[2]:
+        if gann_result[1] > gann_result[0] and gann_result[1] > gann_result[2] and gann_result[1] > 0.5:
             return "Romantic", gann_result[1] * 100
-        if gann_result[2] > gann_result[0] and gann_result[2] > gann_result[1]:
+        if gann_result[2] > gann_result[0] and gann_result[2] > gann_result[1] and gann_result[2] > 0.5:
             return "Sci-fi", gann_result[2] * 100
-        return "No Category"
+        return "Unidentified", 0
 
     def _analyze_poster(self, file_name, k_means_value):
         analyzer = DominantColorAnalyzer(k_means_value)

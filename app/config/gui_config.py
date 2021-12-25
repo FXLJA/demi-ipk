@@ -54,7 +54,7 @@ DATASET_FILE_TYPES = (
     ('All files', '*.*')
 )
 GANN_FILE_TYPES = (
-    ('GANN files', '*.gann'),
+    ('GNN files', '*.gnn; *.gann'),
     ('All files', '*.*')
 )
 

@@ -318,11 +318,13 @@ class TrainingFrame(tk.Frame):
         if filename == "":
             return
 
-        gann = load_gann(filename)
+        gann, training_score, test_score = load_gann(filename)
         if self.gann_trainer is not None:
             self.gann_trainer.set_best_gann(gann)
         self.set_best_gann(gann)
         self.set_gann_entry_text(filename)
+        self.set_training_score_text(training_score)
+        self.set_test_score_text(test_score)
 
     def _on_save_gann_button_pressed(self):
         if self.get_best_gann() is None:
@@ -337,11 +339,12 @@ class TrainingFrame(tk.Frame):
 
         if filename == "":
             return
-        if not filename.endswith(".gann"):
-            filename = filename + ".gann"
+        if not filename.endswith(".gnn"):
+            filename = filename + ".gnn"
 
         best_gann = self.get_best_gann()
-        save_gann(filename, best_gann)
+        save_gann(filename, best_gann, self.gann_trainer.get_best_gann_train_score(),
+                  self.gann_trainer.get_best_gann_test_score())
 
     def _on_train_button_pressed(self):
         if self.gann_trainer is None:
