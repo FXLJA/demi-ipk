@@ -27,11 +27,11 @@ class TestGANNTrainer(unittest.TestCase):
     @patch('app.core.utils.gann_trainer.GANNTrainer._update_training_score')
     def test_evaluation(self, mock_training_score, mock_test_score):
         gann_trainer = A.GANNTrainer.build()
-        gann_trainer.population = [2, 3, 4]
+        gann_trainer.population = [[2, 0, 0], [3, 0, 0], [4, 0, 0]]
         gann_trainer.evaluation()
 
-        mock_training_score.assert_called_with(4)
-        mock_test_score.assert_called_with(4)
+        mock_training_score.assert_called_with([4, 0, 0])
+        mock_test_score.assert_called_with([4, 0, 0])
 
     @patch('app.core.utils.gann_trainer.ScoreEvaluator.calc_training_score')
     def test_update_training_score(self, mock_calc_score):
@@ -87,15 +87,15 @@ class TestGANNTrainer(unittest.TestCase):
     def test_get_random_gann_in_population(self):
         gann_trainer = A.GANNTrainer.with_population_size(10).build()
         result = gann_trainer._get_random_gann_in_population()
-        self.assertIn((result, 0, 0), gann_trainer.population)
+        self.assertIn([result, 0.0, 0.0], gann_trainer.population)
 
 
 class TestScoreEvaluator(unittest.TestCase):
     def test_calc_score(self):
-        x = [1, 2, 3]
-        y = [0, 4, 2]
+        x = [1, 0, 1]
+        y = [0.5, 0.25, 1]
         result = ScoreEvaluator._calc_score(x, y)
-        expected = 1 + 2 + 1
+        expected = 0.8125
         self.assertEqual(result, expected)
 
     @patch('app.core.utils.gann_trainer.ScoreEvaluator._calc_score')
@@ -123,7 +123,7 @@ class TestScoreEvaluator(unittest.TestCase):
         dataset = [6, 4]
 
         result = ScoreEvaluator._calc_gann_dataset_score(mock_gann, dataset)
-        expected = 10
+        expected = 5
 
         mock_calc_gann_score.assert_called_with(mock_gann, 4)
         self.assertEqual(result, expected)

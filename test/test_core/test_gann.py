@@ -43,7 +43,7 @@ class TestGANN(unittest.TestCase):
 
         dna = [0, 2, 4, 6, 8]
         mask = [False, True, True, False, True]
-        expected = [0, -3, -3, 6, -3]
+        expected = [0, -5, -3, 6, 1]
 
         result = GANN.mutate_dna_with_mask(dna, mask)
 
@@ -52,11 +52,11 @@ class TestGANN(unittest.TestCase):
     @patch('app.core.gann.gann.random.random')
     @patch('app.core.gann.gann.monte_carlo.generate')
     def test_mutate(self, mock_monte_carlo, mock_random):
-        mock_monte_carlo.return_value = [False, True, True, False, True]
+        mock_monte_carlo.return_value = [False, False, True, False, False]
         mock_random.return_value = -3
 
         gann = GANN([4, 1], [0, 2, 4, 6, 8])
-        expected = [[[0], [-3], [-3], [6], [-3]]]
+        expected = [[[0], [2], [-3], [6], [8]]]
 
         gann.mutate(0)
 

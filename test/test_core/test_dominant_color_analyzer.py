@@ -6,7 +6,7 @@ from app.core.utils.dominant_color_analyzer import DominantColorAnalyzer
 
 class TestDominantColorAnalyzer(unittest.TestCase):
     def setUp(self):
-        self._color_analyzer = DominantColorAnalyzer()
+        self._color_analyzer = DominantColorAnalyzer(8)
 
     @patch('app.core.utils.dominant_color_analyzer.cv2')
     def test_analyze_path(self, mock_cv2):
@@ -22,7 +22,6 @@ class TestDominantColorAnalyzer(unittest.TestCase):
             self._color_analyzer.analyze_path(TEST_IMAGE_PATH)
 
             mock_cv2.imread.assert_called_with(TEST_IMAGE_PATH)
-            mock_cv2.cvtColor.assert_called_with(EXPECTED_IMAGE_RESULT, -1)
             mock_analyze_image.assert_called_with(EXPECTED_HSV_RESULT)
 
     @patch('app.core.utils.dominant_color_analyzer.KMeans')
