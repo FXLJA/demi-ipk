@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog
 from tkinter import messagebox
+from tkinter.font import Font, BOLD
 
 from PIL import ImageTk, Image
 
@@ -55,19 +56,19 @@ class HomeFrame(ttk.Frame):
 
     def _init_lower_frame_content(self, root_frame):
         self.poster_frame = self._create_poster_frame(root_frame)
-        self.poster_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(0, DEFAULT_PAD_X))
+        self.poster_frame.pack(side=tk.LEFT, padx=(0, DEFAULT_PAD_X))
 
         self.color_frame = self._create_color_frame(root_frame)
-        self.color_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(DEFAULT_PAD_X, DEFAULT_PAD_X))
+        self.color_frame.pack(side=tk.LEFT, padx=(DEFAULT_PAD_X, DEFAULT_PAD_X))
 
-        self.histogram_frame = self._create_histogram_frame(root_frame)
-        self.histogram_frame.pack(side=tk.LEFT, expand=True, fill=tk.Y, padx=(DEFAULT_PAD_X, 0))
+        self.result_frame = self._create_result_frame(root_frame)
+        self.result_frame.pack(side=tk.TOP, padx=(DEFAULT_PAD_X, 0))
 
     # region upper_frame_components
     def _create_search_image_frame(self, root_frame):
         return FrameGroup(
             master=root_frame,
-            title="Search Image",
+            title="Load Image",
             title_font_size=FONT_SIZE_H2,
             create_content_callback=self._create_search_image_content
         )
@@ -187,21 +188,30 @@ class HomeFrame(ttk.Frame):
         fancy_color.pack(side=tk.TOP, pady=8)
         return fancy_color
 
-    def _create_histogram_frame(self, root_frame):
+    def _create_result_frame(self, root_frame):
         return FrameGroup(
             master=root_frame,
-            title="Histogram",
+            title="Result",
             title_font_size=FONT_SIZE_H1,
-            create_content_callback=self._create_histogram_content,
+            create_content_callback=self._create_result_content,
         )
 
-    def _create_histogram_content(self, root_frame):
+    def _create_result_content(self, root_frame):
         content_frame = ttk.Frame(master=root_frame)
 
-        self.histogram_fig = Figure(figsize=(HISTOGRAM_CANVAS_WIDTH, HISTOGRAM_CANVAS_HEIGHT), dpi=100, tight_layout=True)
+        self.resultVar = tk.StringVar()
+        self.resultVar.set("                                                             ")
+        self.lbl_result = ttk.Label(root_frame, textvariable=self.resultVar, font=(DEFAULT_FONT, FONT_SIZE_H2))
+        self.lbl_result.pack(side=tk.TOP)
 
-        self.canvas_histogram = FigureCanvasTkAgg(self.histogram_fig, master=root_frame)
-        self.canvas_histogram.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1, pady=(0, DEFAULT_PAD_Y / 2))
+        self.resultVar2 = tk.StringVar()
+        self.lbl_result2 = ttk.Label(root_frame, textvariable=self.resultVar2,
+                                     font=Font(root_frame, size=FONT_SIZE_H2, weight=BOLD, family=DEFAULT_FONT))
+        self.lbl_result2.pack(side=tk.TOP)
+
+        self.resultVar3 = tk.StringVar()
+        self.lbl_result3 = ttk.Label(root_frame, textvariable=self.resultVar3, font=(DEFAULT_FONT, FONT_SIZE_H2))
+        self.lbl_result3.pack(side=tk.TOP)
 
         return content_frame
 
@@ -239,24 +249,7 @@ class HomeFrame(ttk.Frame):
 
         self.set_poster_image(filename)
         self.set_displayed_dominant_colors(colors)
-        self.update_histogram()
         self._display_poster_theme_result(poster_theme, gann_result)
-
-    def update_histogram(self):
-        if self.histogram_fig.axes:
-            self.histogram_fig.delaxes(self.histogram_fig.axes[0])
-
-        img = cv2.imread(self.get_poster_filename())
-        color = ('b', 'g', 'r')
-        plt = self.histogram_fig.add_subplot(111)
-        plt.set_xlabel('Nilai channel')
-        plt.set_ylabel('Jumlah piksel')
-
-        for i, col in enumerate(color):
-            hist = cv2.calcHist([img], [i], None, [256], [0, 256])
-            plt.plot(hist, color=col)
-
-        self.canvas_histogram.draw()
 
     def set_best_gann(self, gann):
         self.togi_gui.best_gann = gann
@@ -299,7 +292,7 @@ class HomeFrame(ttk.Frame):
         if gann_result[1] > gann_result[0] and gann_result[1] > gann_result[2] and gann_result[1] > 0.5:
             return "Romantic", gann_result[1] * 100
         if gann_result[2] > gann_result[0] and gann_result[2] > gann_result[1] and gann_result[2] > 0.5:
-            return "Sci-fi", gann_result[2] * 100
+            return "Sci-Fi", gann_result[2] * 100
         return "Unidentified", 0
 
     def _analyze_poster(self, file_name, k_means_value):
@@ -316,7 +309,9 @@ class HomeFrame(ttk.Frame):
         return self.get_catagory_from_gann_result(gann_result), gann_result
 
     def _display_poster_theme_result(self, poster_theme, themes):
-        title = "Analyse Result"
-        msg = "The Poster's color scheme is indicating:\n\n%s (Confidence: %.2f%%)" % poster_theme
-        msg += "\n Horror: %.4f \n Romance: %.4f \n Sci-Fi: %.4f" % (themes[0][0], themes[0][1], themes[0][2])
-        messagebox.showinfo(title, msg)
+        msg = "\n \n The Poster's color scheme is indicating:\n\n"
+        msg2 = "%s (Confidence: %.2f%%)" % poster_theme
+        msg3 = "\n Horror: %.4f \n Romance: %.4f \n Sci-Fi: %.4f" % (themes[0][0], themes[0][1], themes[0][2])
+        self.resultVar.set(msg)
+        self.resultVar2.set(msg2)
+        self.resultVar3.set(msg3)

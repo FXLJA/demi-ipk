@@ -40,6 +40,7 @@ if __name__ == '__main__':
     root.tk.call("source", "azure.tcl")
     root.tk.call("set_theme", "light")
     root.title("Togi - The Ultimate Movie Poster Analyzer")
-    root.minsize(1200, 500)
+    root.minsize(WINDOW_WIDTH, WINDOW_HEIGHT)
+    root.geometry("{}x{}".format(WINDOW_WIDTH, WINDOW_HEIGHT))
     TogiGUI(root)
     root.mainloop()
