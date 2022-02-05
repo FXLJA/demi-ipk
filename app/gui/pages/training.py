@@ -304,7 +304,7 @@ class TrainingFrame(tk.Frame):
 
         self.gann_trainer = self._create_gann_trainer(filename)
         if self.get_best_gann() is not None:
-            self.gann_trainer.set_best_gann(self.gann_trainer)
+            self.gann_trainer.set_best_gann(self.get_best_gann())
         self.update_best_gann_from_trainer()
         self.set_dataset_entry_text(filename)
 
@@ -366,11 +366,7 @@ class TrainingFrame(tk.Frame):
 
     def update_best_gann_from_trainer(self):
         best_gann = self.gann_trainer.get_best_gann()
-        train_score = self.gann_trainer.get_best_gann_train_score()
-        test_score = self.gann_trainer.get_best_gann_test_score()
         self.set_best_gann(best_gann)
-        self.set_training_score_text(train_score)
-        self.set_test_score_text(test_score)
 
     def start_training_thread(self):
         self._update_GANN_trainer_config()
