@@ -10,8 +10,9 @@ class ANN:
 
     def init_all_layer_weights(self):
         self.layer_weights = []
-        new_layer_weights = self._create_layer_weights(i, k)
-        self.layer_weights += [new_layer_weights]
+        for i, k in ANN._window_iterate_layer_shape(self.layer_shape):
+            new_layer_weights = self._create_layer_weights(i, k)
+            self.layer_weights += [new_layer_weights]
 
     def _create_layer_weights(self, total_start_neuron, total_end_neuron):
         return numpy.random.rand(total_start_neuron + 1,

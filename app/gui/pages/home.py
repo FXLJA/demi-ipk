@@ -248,7 +248,7 @@ class HomeFrame(ttk.Frame):
         poster_theme, gann_result = self._get_poster_theme(main_gann, colors, percentages)
 
         self.set_poster_image(filename)
-        self.set_displayed_dominant_colors(colors)
+        self.set_displayed_dominant_colors(colors, percentages)
         self._display_poster_theme_result(poster_theme, gann_result)
 
     def set_best_gann(self, gann):
@@ -273,10 +273,12 @@ class HomeFrame(ttk.Frame):
         self.poster_img = ImageTk.PhotoImage(Image.fromarray(hasil))
         self.canvas_poster.create_image(0, 0, anchor=tk.NW, image=self.poster_img)
 
-    def set_displayed_dominant_colors(self, colors):
+    def set_displayed_dominant_colors(self, colors, percentages):
         for i in range(5):
             rgb = yuv_to_rgb(colors[i])
+            percentage = percentages[i]
             self.fancy_colors[i].set_color(rgb)
+            self.fancy_colors[i].set_percentage(percentage)
 
     def get_poster_filename(self):
         return self.entry_search_image.get()
