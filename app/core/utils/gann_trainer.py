@@ -1,3 +1,4 @@
+import copy
 import random
 import app.core.common.monte_carlo as monte_carlo
 
@@ -72,17 +73,20 @@ class GANNTrainer:
             population_size = len(self.population)
 
     def reproduction(self):
+        parent_population = copy.deepcopy(self.population)
+
         while len(self.population) < self.config.population_size:
-            gann1 = self._get_random_gann_in_population()
-            gann2 = self._get_random_gann_in_population(black_list=[gann1])
+            gann1 = self._get_random_gann_in_population(parent_population)
+            gann2 = self._get_random_gann_in_population(parent_population, black_list=[gann1])
 
             new_gann = gann1.mate(gann2, self.config.mutation_rate)
             self.add_population(new_gann)
 
-    def _get_random_gann_in_population(self, black_list=[]):
+    @staticmethod
+    def _get_random_gann_in_population(population, black_list=[]):
         while True:
-            index = random.randrange(0, len(self.population))
-            gann = self.population[index][0]
+            index = random.randrange(0, len(population))
+            gann = population[index][0]
             if gann not in black_list:
                 return gann
 

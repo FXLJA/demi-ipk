@@ -86,7 +86,7 @@ class TestGANNTrainer(unittest.TestCase):
 
     def test_get_random_gann_in_population(self):
         gann_trainer = A.GANNTrainer.with_population_size(10).build()
-        result = gann_trainer._get_random_gann_in_population()
+        result = gann_trainer._get_random_gann_in_population(gann_trainer.population)
         self.assertIn([result, 0.0, 0.0], gann_trainer.population)
 
 
