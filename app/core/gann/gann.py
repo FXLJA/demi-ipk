@@ -19,6 +19,13 @@ class GANN(ANN):
         new_gann.mutate(mutation_rate)
         return new_gann
 
+    def cross_over(self, target):
+        dna_self = self.get_dna()
+        dna_target = target.get_dna()
+        mask = monte_carlo.generate(0.5, len(dna_self))
+        new_dna = GANN.cross_over_dna(dna_self, dna_target, mask)
+        return GANN(self.layer_shape, new_dna)
+
     def mutate(self, mutation_rate):
         dna = self.get_dna()
         mask = monte_carlo.generate(mutation_rate, len(dna))
@@ -32,13 +39,6 @@ class GANN(ANN):
             if mask[i]:
                 new_dna[i] += random.random() * 2 - 1
         return new_dna
-
-    def cross_over(self, target):
-        dna_self = self.get_dna()
-        dna_target = target.get_dna()
-        mask = monte_carlo.generate(0.5, len(dna_self))
-        new_dna = GANN.cross_over_dna(dna_self, dna_target, mask)
-        return GANN(self.layer_shape, new_dna)
 
     @staticmethod
     def cross_over_dna(dna0, dna1, mask):
