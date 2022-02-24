@@ -1,5 +1,4 @@
 import os.path
-import matplotlib
 import tkinter as tk
 
 from tkinter import ttk
@@ -19,10 +18,6 @@ from app.config.global_config import *
 from app.gui.common.slider import HSlider
 from app.gui.common.frame_group import FrameGroup
 from app.gui.common.fancy_color import FancyColor
-
-from matplotlib.figure import Figure
-from matplotlib.backend_bases import key_press_handler
-from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk)
 
 
 class HomeFrame(ttk.Frame):
