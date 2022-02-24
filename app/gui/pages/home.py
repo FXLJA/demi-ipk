@@ -232,11 +232,11 @@ class HomeFrame(ttk.Frame):
         main_gann = self.get_best_gann()
 
         if not os.path.isfile(filename):
-            messagebox.showerror("Missing Poster!", "Posternya mana WOI!")
+            messagebox.showerror("Missing Poster!", "Tidak ada poster untuk dianalisis")
             return
 
         if main_gann is None:
-            messagebox.showerror("Missing GANN!", "Tolong Load GANN dulu atau Load Dataset untuk buat GANN baru")
+            messagebox.showerror("Missing GANN!", "Load GNN atau train GNN baru terlebih dahulu")
             return
 
         colors, percentages = self._analyze_poster(filename, k_means_value)
