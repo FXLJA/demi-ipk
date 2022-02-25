@@ -35,4 +35,3 @@ class DominantColorAnalyzer:
         sorted_cluster_sum = numpy.sort(cluster_sum)  # return hasil index untuk sorting dari kecil ke besar
         top_5_cluster_sum = sorted_cluster_sum[:-6:-1]
         return top_5_cluster_sum / numpy.sum(cluster_sum)  # Ambil 5 data dari belakang
-

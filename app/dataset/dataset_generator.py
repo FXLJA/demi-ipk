@@ -32,11 +32,11 @@ if __name__ == '__main__':
     progress = 0
     max_progress = 100 * len(CATEGORY_AND_FOLDER)
     dataset = []
-    for catagory, folder_name in CATEGORY_AND_FOLDER:
+    for category, folder_name in CATEGORY_AND_FOLDER:
         for index in range(100):
             file_name = FILE_PATH_FORMAT.format(folder_name, '{0:03}'.format(index+1))
             color_pairs = create_color_pairs(file_name)
-            color_data = ColorAnalyzerData(color_pairs, catagory)
+            color_data = ColorAnalyzerData(color_pairs, category)
             dataset.append(color_data)
 
             progress += 1
