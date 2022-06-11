@@ -73,7 +73,7 @@ LINK_STEAM = "https://steamcommunity.com/id/fxlja1411/"
 PROFILE_PICTURE_WIDTH = 300
 PROFILE_PICTURE_HEIGHT = 300
 
-PROJECT_PATH = "C:/Users/Jason Alexander/Documents/GitHub/togi/"
+PROJECT_PATH = "C:/GitHub/togi/"
 
 PROFILE_PICTURE_PATH = PROJECT_PATH + "app/asset/32180082.jpg"
 DISCORD_PICTURE_PATH = PROJECT_PATH + "app/asset/discord.png"
